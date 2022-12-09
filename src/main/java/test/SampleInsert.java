@@ -29,13 +29,17 @@ public class SampleInsert extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8");
 		boolean errSw = false; // 送信されたデータに誤りがあればtrue にする
-		
-		SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy/mm/dd");
+
+//		SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy/mm/dd");
+		SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String strId = request.getParameter("Student_ID_Number");
 		String strEnrollment_Status = request.getParameter("Enrollment_Status");
+
+		System.out.println("Enrollment_Status_Date  " + request.getParameter("Enrollment_Status_Date"));
 		Date Enrollment_Status_Date = null;
 		try {
 			Enrollment_Status_Date = sdFormat.parse(request.getParameter("Enrollment_Status_Date"));
+			System.out.println("Enrollment_Status_Date  " + Enrollment_Status_Date);
 		} catch (ParseException e1) {
 			// TODO 自動生成された catch ブロック
 			e1.printStackTrace();
@@ -82,7 +86,7 @@ public class SampleInsert extends HttpServlet {
 				Student_ID_Number = Integer.parseInt(strId);
 			} catch (Exception e) {
 				response.getWriter().println("<p>番号が数字ではありません</p>");
-				errSw = true;
+				errSw = true;	
 			}
 		}
 		// --- 番号が空か、および値が数値かを判断
@@ -153,21 +157,37 @@ public class SampleInsert extends HttpServlet {
 			if (bean == null) {
 				bean = new SampleDataBean();
 				bean.setStudent_ID_Number(Student_ID_Number);
+				System.out.println("Student_ID_Number  " + Student_ID_Number);
 				bean.setEnrollment_Status(Enrollment_Status);
-				bean.setEnrollment_Status_Date(Enrollment_Status_Date);
+				System.out.println("Enrollment_Status  " + Enrollment_Status);
+				bean.setEnrollment_Status_Date(request.getParameter("Enrollment_Status_Date"));
+				System.out.println("request.getParameter(\"Enrollment_Status_Date\")  " + request.getParameter("Enrollment_Status_Date"));
 				bean.setStudent_Name(Student_Name);
+				System.out.println("Student_Name  " + Student_Name);
 				bean.setStudent_Pronunciation(Student_Pronunciation);
-				bean.setDate_of_birth(Date_of_birth);
+				System.out.println("Student_Pronunciation  " + Student_Pronunciation);
+				bean.setDate_of_birth(request.getParameter("Date_of_birth"));
+				System.out.println("request.getParameter(\"Date_of_birth\")  " + request.getParameter("Date_of_birth"));
 				bean.setStudents_postal_code(Students_postal_code);
+				System.out.println("Students_postal_code  " + Students_postal_code);
 				bean.setStudents_address(Students_address);
+				System.out.println("Students_address  " + Students_address);
 				bean.setPhone_number(Phone_number);
+				System.out.println("Phone_number  " + Phone_number);
 				bean.setIndividuals_mail_address(Individuals_mail_address);
+				System.out.println("Individuals_mail_address  " + Individuals_mail_address);
 				bean.setGuardians_name_in_Kanji(Guardians_name_in_Kanji);
+				System.out.println("Guardians_name_in_Kanji  " + Guardians_name_in_Kanji);
 				bean.setGuardians_Pronunciation(Guardians_Pronunciation);
+				System.out.println("Guardians_Pronunciation  " + Guardians_Pronunciation);
 				bean.setGuardians_postal_code(Guardians_postal_code);	
+				System.out.println("Guardians_postal_code  " + Guardians_postal_code);
 				bean.setGuardians_address(Guardians_address);
+				System.out.println("Guardians_email_address  " + Guardians_email_address);
 				bean.setParent_Guardian_Phone_Number(Parent_Guardian_Phone_Number);
+				System.out.println("Parent_Guardian_Phone_Number  " + Parent_Guardian_Phone_Number);
 				bean.setGuardians_email_address(Guardians_email_address);
+				System.out.println("Guardians_email_address  " + Guardians_email_address);
 				
 				
 				int result = dao.insertData(bean);

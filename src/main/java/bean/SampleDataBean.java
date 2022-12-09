@@ -1,17 +1,16 @@
 package bean;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class SampleDataBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int Student_ID_Number;
 	private int Enrollment_Status;
-	private Date Enrollment_Status_Date;
+	private String Enrollment_Status_Date;
 	private String Student_Name;
 	private String Student_Pronunciation;
-	private Date Date_of_birth;
+	private String Date_of_birth;
 	private String Students_postal_code;
 	private String Students_address;
 	private String Phone_number;
@@ -31,8 +30,8 @@ public class SampleDataBean implements Serializable {
 		this.Enrollment_Status = enrollment_Status;
 	}
 
-	public void setEnrollment_Status_Date(Date enrollment_Status_Date) {
-		this.Enrollment_Status_Date = enrollment_Status_Date;
+	public void setEnrollment_Status_Date(String Enrollment_Status_Date) {
+		this.Enrollment_Status_Date = Enrollment_Status_Date;
 	}
 
 	public void setStudent_Name(String student_Name) {
@@ -43,7 +42,7 @@ public class SampleDataBean implements Serializable {
 		this.Student_Pronunciation = student_Pronunciation;
 	}
 
-	public void setDate_of_birth(Date date_of_birth) {
+	public void setDate_of_birth(String date_of_birth) {
 		this.Date_of_birth = date_of_birth;
 	}
 
@@ -95,7 +94,7 @@ public class SampleDataBean implements Serializable {
 		return Enrollment_Status;
 	}
 
-	public Date getEnrollment_Status_Date() {
+	public String getEnrollment_Status_Date() {
 		return Enrollment_Status_Date;
 	}
 
@@ -107,7 +106,7 @@ public class SampleDataBean implements Serializable {
 		return Student_Pronunciation;
 	}
 
-	public Date getDate_of_birth() {
+	public String getDate_of_birth() {
 		return Date_of_birth;
 	}
 
