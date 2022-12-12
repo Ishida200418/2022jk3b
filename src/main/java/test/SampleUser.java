@@ -11,11 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 import bean.SampleDataBean;
 import dao.SampleDAO;
 
-@WebServlet("/update")
-public class SampleUpdate extends HttpServlet {
+@WebServlet("/user")
+public class SampleUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public SampleUpdate() {
+	public SampleUser() {
 		super();
 	}
 
@@ -48,7 +48,7 @@ public class SampleUpdate extends HttpServlet {
 
 			// --- 更新用のフォームを呼び出す
 			request.setAttribute("data", bean);
-			request.getRequestDispatcher("sampleUpdate.jsp").forward(request, response);
+			request.getRequestDispatcher("sampleUser.jsp").forward(request, response);
 		}
 	}
 

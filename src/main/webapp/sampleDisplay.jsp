@@ -55,9 +55,9 @@ th, td {
 			<table>
 				<tr>
 					<th>選択</th>
-					<th>ID</th>
-					<th>NAME</th>
-					<th>KANANAME</th>
+					<th>学籍番号</th>
+					<th>学生氏名（漢字）</th>
+					<th>学生ふりがな</th>
 				</tr>
 				<%
 				//----- 受け取ったデータをテーブルに表示する
@@ -67,9 +67,9 @@ th, td {
 					cnt++;
 				%>
 				<tr>
-					<td><input type="radio" name="id"
+					<td><input type="radio" name="Student_ID_Number"
 						value="<%=bean.getStudent_ID_Number()%>" id="radio<%=cnt%>"></td>
-					<td><label for="radio<%=cnt%>"><%=bean.getStudent_ID_Number()%></label></td>
+					<td><label for="radio<%=cnt%>"><a href="./user?Student_ID_Number=<%=bean.getStudent_ID_Number()%>"><%=bean.getStudent_ID_Number()%></a></label></td>
 					<td><label for="radio<%=cnt%>"><%=bean.getStudent_Name()%></label></td>
 					<td><label for="radio<%=cnt%>"><%=bean.getStudent_Pronunciation()%></label></td>
 				</tr>

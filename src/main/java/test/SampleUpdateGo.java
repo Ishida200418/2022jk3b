@@ -1,7 +1,10 @@
 package test;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -14,62 +17,233 @@ import bean.SampleDataBean;
 import dao.SampleDAO;
 
 @WebServlet("/updatego")
-	public class SampleUpdateGo extends HttpServlet {
-	 private static final long serialVersionUID = 1L;
-	 
+public class SampleUpdateGo extends HttpServlet {
+	private static final long serialVersionUID = 1L;
 
-		public SampleUpdateGo() {
-			super();
+	public SampleUpdateGo() {
+		super();
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+
+		// --- 変更ボタンクリック以外は一覧へ戻す
+		String submit = (String) request.getParameter("submit");
+		if (submit == null || !submit.equals("1")) {
+			response.sendRedirect("displayall");
+			return;
 		}
 
-	 
-	 protected void doGet(HttpServletRequest request, HttpServletResponse response)
-	throws ServletException, IOException {
-	 request.setCharacterEncoding("utf-8");
+		// --- エラーメッセージを格納する配列
+		List<String> list = new ArrayList();
 
-	 //--- 変更ボタンクリック以外は一覧へ戻す
-	 String submit = (String) request.getParameter("submit");
-	 if (submit == null || !submit.equals("1")) {
-	 response.sendRedirect("displayall");
-	 return;
-	 }
+		SampleDAO dao = new SampleDAO();
+		String strId = request.getParameter("Student_ID_Number");
+		SampleDataBean bean = dao.getOneRec(Integer.parseInt(strId));
 
-	 //--- エラーメッセージを格納する配列
-	 List<String> list = new ArrayList();
+		// --- フォームデータの取得
+//		SampleDataBean bean = new SampleDataBean();
 
-	 //--- フォームデータの取得
-	 SampleDataBean bean = new SampleDataBean();
-	 String Student_ID_Number = request.getParameter("Student_ID_Number");
-	 
-	 String strSimei = request.getParameter("simei");
+		String strSimei = request.getParameter("Student_Name");
+		boolean errSw = false; // 送信されたデータに誤りがあればtrue にする
 
-	 //--- ID の設定（エラーチェックもする）
-	 try {
-	 bean.setStudent_ID_Number(Integer.parseInt(Student_ID_Number));
-	 } catch(Exception e) {
-	 list.add("ID が数値でありません。");
-	 }
+//		SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy/mm/dd");
+		SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String strEnrollment_Status = request.getParameter("Enrollment_Status");
+		Date Enrollment_Status_Date = null;
+//		Date Enrollment_Status_Date = null;
+		try {
+			Enrollment_Status_Date = sdFormat.parse(request.getParameter("Enrollment_Status_Date"));
+//			bean.setEnrollment_Status_Date(sdFormat.parse(request.getParameter("Enrollment_Status_Date")));
+            String str = new SimpleDateFormat("yyyy-MM-dd").format(Enrollment_Status_Date);
+			bean.setEnrollment_Status_Date(str);
+		} catch (ParseException e1) {
+			// TODO 自動生成された catch ブロック
+			e1.printStackTrace();
+			response.getWriter().println("<p>在籍状態確定日が入力されていません</p>");
+			errSw = true;
+		}
 
-	 //--- 氏名の設定（エラーチェックもする）
-	 if (strSimei.isEmpty()) {
-	 list.add("氏名の値が未設定になっています");
-	 } else {
-	 bean.setStudent_Name(strSimei);
-	 }
+		String Student_Name = request.getParameter("Student_Name");
+		String Student_Pronunciation = request.getParameter("Student_Pronunciation");
+		Date Date_of_birth = null;
+		try {
+			Date_of_birth = sdFormat.parse(request.getParameter("Date_of_birth"));
+//			bean.setEnrollment_Status_Date(sdFormat.parse(request.getParameter("Enrollment_Status_Date")));
+            String str = new SimpleDateFormat("yyyy-MM-dd").format(Date_of_birth);
+			bean.setDate_of_birth(str);
+		} catch (ParseException e1) {
+			// TODO 自動生成された catch ブロック
+			e1.printStackTrace();
+			response.getWriter().println("<p>誕生日が入力されていません</p>");
+			errSw = true;
+		}
+		String Students_postal_code = request.getParameter("Students_postal_code");
+		String Students_address = request.getParameter("Students_address");
+		String Phone_number = request.getParameter("Phone_number");
+		String Individuals_mail_address = request.getParameter("Individuals_mail_address");
+		String Guardians_name_in_Kanji = request.getParameter("Guardians_name_in_Kanji");
+		String Guardians_Pronunciation = request.getParameter("Guardians_Pronunciation");
+		String Guardians_postal_code = request.getParameter("Guardians_postal_code");
+		String Guardians_address = request.getParameter("Guardians_address");
+		String Parent_Guardian_Phone_Number = request.getParameter("Parent_Guardian_Phone_Number");
+		String Guardians_email_address = request.getParameter("Guardians_email_address");
 
-	 //--- DAO の updateata を呼び出す。
-	 if (list.size()== 0) {
-	 SampleDAO dao = new SampleDAO();
-	 int result = dao.updateDataName(bean);
-	 if (result == 1) {
-	 list.add("修正完了しました。");
-	 } else {
-	 list.add("修正できませんでした。");
-	 }
-	 }
+		
+		
+		
+		System.out.println("----------------------------------------------------------------- ");
+		// --- ID の設定（エラーチェックもする）
+		try {
+			System.out.println("bean.getStudent_ID_Number  " + bean.getStudent_ID_Number());
+			System.out.println("strId  " + strId);
+			bean.setStudent_ID_Number(Integer.parseInt(strId));
+		} catch (Exception e) {
+			System.out.println("e  " + e);
+			System.out.println("bean.getStudent_ID_Number  " + bean.getStudent_ID_Number());
+			System.out.println("strId  " + strId);
+			list.add("学籍番号 が数値でありません。");
+		}
 
-	 //--- 結果表示のｊjsp へ遷移
-	 request.setAttribute("message", list);
-	 request.getRequestDispatcher("sampleUpdateGo.jsp").forward(request, response);
-	 }
+		try {
+			System.out.println("bean.getEnrollment_Status  " + bean.getEnrollment_Status());
+			System.out.println("strEnrollment_Status  " + strEnrollment_Status);
+			bean.setEnrollment_Status(Integer.parseInt(strEnrollment_Status));
+		} catch (Exception e) {
+			System.out.println("e  " + e);
+			System.out.println("bean.getEnrollment_Status  " + bean.getEnrollment_Status());
+			System.out.println("strEnrollment_Status  " + strEnrollment_Status);
+			list.add("在籍状態 が数値でありません。");
+		}
+
+		// --- 氏名の設定（エラーチェックもする）
+		if (Student_Name.isEmpty()) {
+			list.add("氏名の値が未設定になっています");
+		} else {
+			System.out.println("bean.getStudent_Name  " + bean.getStudent_Name());
+			System.out.println("Student_Name  " + Student_Name);
+			bean.setStudent_Name(Student_Name);
+		}
+		// --- 氏名の設定（エラーチェックもする）
+		if (Student_Pronunciation.isEmpty()) {
+			list.add("氏名の値が未設定になっています");
+		} else {
+			System.out.println("bean.getStudent_Pronunciation  " + bean.getStudent_Pronunciation());
+			System.out.println("Student_Pronunciation  " + Student_Pronunciation);
+			bean.setStudent_Pronunciation(Student_Pronunciation);
+		}
+
+		// --- 氏名の設定（エラーチェックもする）
+		if (Students_postal_code.isEmpty()) {
+			list.add("氏名の値が未設定になっています");
+		} else {
+			System.out.println("bean.getStudents_postal_code  " + bean.getStudents_postal_code());
+			System.out.println("Students_postal_code  " + Students_postal_code);
+			bean.setStudents_postal_code(Students_postal_code);
+		}
+
+		// --- 氏名の設定（エラーチェックもする）
+		if (Students_address.isEmpty()) {
+			list.add("氏名の値が未設定になっています");
+		} else {
+			System.out.println("bean.getStudents_address  " + bean.getStudents_address());
+			System.out.println("Students_address  " + Students_address);
+			bean.setStudents_address(Students_address);
+		}
+
+		// --- 氏名の設定（エラーチェックもする）
+		if (Phone_number.isEmpty()) {
+			list.add("氏名の値が未設定になっています");
+		} else {
+			System.out.println("bean.getPhone_number  " + bean.getPhone_number());
+			System.out.println("Phone_number  " + Phone_number);
+			bean.setPhone_number(Phone_number);
+		}
+
+
+		// --- 氏名の設定（エラーチェックもする）
+		if (Individuals_mail_address.isEmpty()) {
+			list.add("氏名の値が未設定になっています");
+		} else {
+			System.out.println("bean.getIndividuals_mail_address  " + bean.getIndividuals_mail_address());
+			System.out.println("Individuals_mail_address  " + Individuals_mail_address);
+			bean.setIndividuals_mail_address(Individuals_mail_address);
+		}
+
+
+		// --- 氏名の設定（エラーチェックもする）
+		if (Guardians_name_in_Kanji.isEmpty()) {
+			list.add("氏名の値が未設定になっています");
+		} else {
+			System.out.println("bean.getGuardians_name_in_Kanji  " + bean.getGuardians_name_in_Kanji());
+			System.out.println("Guardians_name_in_Kanji  " + Guardians_name_in_Kanji);
+			bean.setGuardians_name_in_Kanji(Guardians_name_in_Kanji);
+		}
+
+		// --- 氏名の設定（エラーチェックもする）
+		if (Guardians_Pronunciation.isEmpty()) {
+			list.add("氏名の値が未設定になっています");
+		} else {
+			System.out.println("bean.getGuardians_Pronunciation  " + bean.getGuardians_Pronunciation());
+			System.out.println("Guardians_Pronunciation  " + Guardians_Pronunciation);
+			bean.setGuardians_Pronunciation(Guardians_Pronunciation);
+		}
+
+		// --- 氏名の設定（エラーチェックもする）
+		if (Guardians_postal_code.isEmpty()) {
+			list.add("氏名の値が未設定になっています");
+		} else {
+			System.out.println("bean.getGuardians_postal_code  " + bean.getGuardians_postal_code());
+			System.out.println("Guardians_postal_code  " + Guardians_postal_code);
+			bean.setGuardians_postal_code(Guardians_postal_code);
+		}
+
+		// --- 氏名の設定（エラーチェックもする）
+		if (Guardians_address.isEmpty()) {
+			list.add("氏名の値が未設定になっています");
+		} else {
+			System.out.println("bean.getGuardians_address  " + bean.getGuardians_address());
+			System.out.println("Guardians_address " + Guardians_address);
+			bean.setGuardians_address(Guardians_address);
+		}
+
+		// --- 氏名の設定（エラーチェックもする）
+		if (Parent_Guardian_Phone_Number.isEmpty()) {
+			list.add("氏名の値が未設定になっています");
+		} else {
+			System.out.println("bean.getParent_Guardian_Phone_Number  " + bean.getParent_Guardian_Phone_Number());
+			System.out.println("Parent_Guardian_Phone_Number  " + Parent_Guardian_Phone_Number);
+			bean.setParent_Guardian_Phone_Number(Parent_Guardian_Phone_Number);
+		}
+
+		// --- 氏名の設定（エラーチェックもする）
+		if (Guardians_email_address.isEmpty()) {
+			list.add("氏名の値が未設定になっています");
+		} else {
+			System.out.println("bean.getGuardians_email_address  " + bean.getGuardians_email_address());
+			System.out.println("Guardians_email_address  " + Guardians_email_address);
+			bean.setGuardians_email_address(Guardians_email_address);
+		}
+
+
+		
+		
+		
+		
+		
+		// --- DAO の updateata を呼び出す。
+		if (list.size() == 0) {
+			int result = dao.updateDataAll(bean);
+			if (result == 1) {
+				list.add("修正完了しました。");
+			} else {
+				list.add("修正できませんでした。");
+			}
+		}
+
+		// --- 結果表示のｊjsp へ遷移
+		request.setAttribute("message", list);
+		request.getRequestDispatcher("sampleUpdateGo.jsp").forward(request, response);
 	}
+}
