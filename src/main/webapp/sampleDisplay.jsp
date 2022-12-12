@@ -6,8 +6,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
 <meta charset="UTF-8">
-<title>一覧</title>
+<title>データ一覧</title>
 <style type="text/css">
 table {
 	border-collapse: collapse;
@@ -17,8 +22,28 @@ table, th, td {
 	border: solid 1px #000000;
 }
 
+table {
+	margin: auto;
+}
+
+td {
+	text-align: center;
+}
+
+h2 {
+	text-align: center;
+}
+
+form {
+	text-align: center;
+}
+
 th, td {
 	padding: 5px;
+}
+
+h1 {
+	text-align: center;
 }
 
 .formarea {
@@ -44,11 +69,21 @@ th, td {
 </head>
 <body>
 	<header>
-		<h1>データの編集</h1>
+		<h1>データ一覧</h1>
 	</header>
 	<main>
 		<form class="formarea" method="get" action="select">
-			キーワード <input type="text" name="keyword">
+			キーワード <input type="text" name="keyword"> 在籍 <select
+				name="status" class=" form-select-lg mb-3"
+				aria-label="Default select example">
+
+
+				<option value="">全て</option>
+				<option value="0">在学</option>
+				<option value="1">休学</option>
+				<option value="2">退学</option>
+				<option value="3">除籍</option>
+			</select>
 			<button type="submit" name="submit" value="search">検索</button>
 		</form>
 		<form class="formarea" method="get" action="select">
@@ -69,7 +104,8 @@ th, td {
 				<tr>
 					<td><input type="radio" name="Student_ID_Number"
 						value="<%=bean.getStudent_ID_Number()%>" id="radio<%=cnt%>"></td>
-					<td><label for="radio<%=cnt%>"><a href="./user?Student_ID_Number=<%=bean.getStudent_ID_Number()%>"><%=bean.getStudent_ID_Number()%></a></label></td>
+					<td><label for="radio<%=cnt%>"><a
+							href="./user?Student_ID_Number=<%=bean.getStudent_ID_Number()%>"><%=bean.getStudent_ID_Number()%></a></label></td>
 					<td><label for="radio<%=cnt%>"><%=bean.getStudent_Name()%></label></td>
 					<td><label for="radio<%=cnt%>"><%=bean.getStudent_Pronunciation()%></label></td>
 				</tr>
@@ -145,7 +181,7 @@ th, td {
 			}
 			%>
 			<div class="buttonarea">
-				<button type="submit" name="submit" value="delete">削除</button>
+				<!-- <button type="submit" name="submit" value="delete">削除</button> -->
 				<button type="submit" name="submit" value="insert">新規登録</button>
 				<button type="submit" name="submit" value="update">編集</button>
 

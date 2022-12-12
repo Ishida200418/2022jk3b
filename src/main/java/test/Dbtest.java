@@ -24,6 +24,7 @@ public class Dbtest extends HttpServlet {
 	// --- get 送信されるページ番号を取得する 無ければ 1
 	int page = 1;
 	String keyword = "";
+	String status = "";
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,7 +33,7 @@ public class Dbtest extends HttpServlet {
 		try {
 			List<SampleDataBean> b = new ArrayList<SampleDataBean>();
 			SampleDAO sb = new SampleDAO();
-			b = sb.getAllData(page, keyword);
+			b = sb.getAllData(page, keyword,status);
 			for(SampleDataBean x : b) {
 				response.getWriter().print(x.getStudent_ID_Number() + "," + x.getStudent_Name() + "," + x.getStudent_Name() + "<br>");
 			}	

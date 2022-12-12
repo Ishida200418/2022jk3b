@@ -42,10 +42,19 @@ public class SampleDisplayAll extends HttpServlet {
 		if (keyword == null) {
 			keyword = "";
 		}
+		
+
+		String status = (String) request.getParameter("status");
+		if (status == null) {
+			status = "";
+		}
+		System.out.println("status " +status);
+		
+		
 		// SampleDAO のgetAllData メソッドを呼び出して全データを取り出し、list へ格納
 		List<SampleDataBean> list = new ArrayList<SampleDataBean>();
 		SampleDAO dao = new SampleDAO();
-		list = dao.getAllData(page, keyword);
+		list = dao.getAllData(page, keyword,status);
 		// list をjsp へ送るための設定
 		request.setAttribute("data", list);
 		System.out.println("data " + list);
