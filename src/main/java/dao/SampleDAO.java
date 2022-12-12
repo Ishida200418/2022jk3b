@@ -20,7 +20,7 @@ public class SampleDAO extends Conn implements Serializable {
 	}
 
 	// --- sample テーブルから取り出したデータを ArrayList に格納して返却する
-	public List<SampleDataBean> getAllData(int page, String keyword) {
+	public List<SampleDataBean> getAllData(int page, String keyword, String status) {
 		List<SampleDataBean> data = new ArrayList<SampleDataBean>();
 		try {
 
@@ -28,6 +28,7 @@ public class SampleDAO extends Conn implements Serializable {
 			if (keyword == null || keyword == "") {
 				keyword = "";
 			}
+
 //			System.out.println(page);
 //			System.out.println(keyword);
 //			String sql = "select * from gakusei_master;";
@@ -44,8 +45,7 @@ public class SampleDAO extends Conn implements Serializable {
 //			ResultSet rs = st.executeQuery(sql);
 //			System.out.println("-------------------- ");
 
-			sql = "select * from gakusei_master where Student_ID_Number like ? or Student_Name like ? or Student_Pronunciation like ? limit ?, ?;";
-			
+			sql = "select * from gakusei_master where Enrollment_Status like ? and (Student_ID_Number like ? or Student_Name like ? or Student_Pronunciation like ?) limit ?, ?;";
 
 			System.out.println("sql " + sql);
 			PreparedStatement st = con.prepareStatement(sql);
@@ -53,12 +53,20 @@ public class SampleDAO extends Conn implements Serializable {
 			int baseRow = (page - 1) * MAXROW;
 			System.out.println("page " + page);
 //			System.out.println("baseRow: " + baseRow);
-//			System.out.println("MAXROW: " + MAXROW);
-			st.setString(1, "%" + keyword + "%");
+//			System.out.println("MAXROW: " + MAXROW);;
+//			int int_status=0;
+			if (status == null || status == "") {
+				st.setString(1, "%");
+			} else {
+				st.setString(1, status);
+//				System.out.println("db status " + status);
+//				int_status = Integer.parseInt(status);
+			}
 			st.setString(2, "%" + keyword + "%");
 			st.setString(3, "%" + keyword + "%");
-			st.setInt(4, baseRow);
-			st.setInt(5, MAXROW);
+			st.setString(4, "%" + keyword + "%");
+			st.setInt(5, baseRow);
+			st.setInt(6, MAXROW);
 			System.out.println("-------------------- ");
 			ResultSet rs = st.executeQuery();
 			System.out.println("-------------------- ");

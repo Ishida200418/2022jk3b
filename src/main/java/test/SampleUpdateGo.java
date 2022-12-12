@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -119,7 +121,7 @@ public class SampleUpdateGo extends HttpServlet {
 
 		// --- 氏名の設定（エラーチェックもする）
 		if (Student_Name.isEmpty()) {
-			list.add("氏名の値が未設定になっています");
+			list.add("学生氏名（漢字）の値が未設定になっています");
 		} else {
 			System.out.println("bean.getStudent_Name  " + bean.getStudent_Name());
 			System.out.println("Student_Name  " + Student_Name);
@@ -127,7 +129,7 @@ public class SampleUpdateGo extends HttpServlet {
 		}
 		// --- 氏名の設定（エラーチェックもする）
 		if (Student_Pronunciation.isEmpty()) {
-			list.add("氏名の値が未設定になっています");
+			list.add("学生ふりがなの値が未設定になっています");
 		} else {
 			System.out.println("bean.getStudent_Pronunciation  " + bean.getStudent_Pronunciation());
 			System.out.println("Student_Pronunciation  " + Student_Pronunciation);
@@ -136,16 +138,27 @@ public class SampleUpdateGo extends HttpServlet {
 
 		// --- 氏名の設定（エラーチェックもする）
 		if (Students_postal_code.isEmpty()) {
-			list.add("氏名の値が未設定になっています");
+			list.add("本人郵便番号の値が未設定になっています");
 		} else {
 			System.out.println("bean.getStudents_postal_code  " + bean.getStudents_postal_code());
 			System.out.println("Students_postal_code  " + Students_postal_code);
 			bean.setStudents_postal_code(Students_postal_code);
 		}
 
+		String strPattern = "^[0-9]{7}$";
+		Pattern p = Pattern.compile(strPattern); /* 正規表現オブジェクトの準備 */
+		Matcher m = p.matcher(Students_postal_code); /* 正規表現をマッチさせる */
+		if (m.find()) { /* find メソッドが true なら一致する */
+			System.out.println("本人郵便番号が一致します");
+		} else {
+			list.add("本人郵便番号が不一致です");
+			System.out.println("本人郵便番号が不一致です");
+			System.out.println("Students_postal_code" + Students_postal_code);
+			response.getWriter().println("<p>本人郵便番号が不一致です");
+		}
 		// --- 氏名の設定（エラーチェックもする）
 		if (Students_address.isEmpty()) {
-			list.add("氏名の値が未設定になっています");
+			list.add("本人住所の値が未設定になっています");
 		} else {
 			System.out.println("bean.getStudents_address  " + bean.getStudents_address());
 			System.out.println("Students_address  " + Students_address);
@@ -154,17 +167,28 @@ public class SampleUpdateGo extends HttpServlet {
 
 		// --- 氏名の設定（エラーチェックもする）
 		if (Phone_number.isEmpty()) {
-			list.add("氏名の値が未設定になっています");
+			list.add("本人電話番号の値が未設定になっています");
 		} else {
 			System.out.println("bean.getPhone_number  " + bean.getPhone_number());
 			System.out.println("Phone_number  " + Phone_number);
 			bean.setPhone_number(Phone_number);
 		}
+		strPattern = "^[0-9][0-9¥¥-]*$"; /* 正規表現文字列 */
+		p = Pattern.compile(strPattern); /* 正規表現オブジェクトの準備 */
+		m = p.matcher(Phone_number); /* 正規表現をマッチさせる */
+		if (m.find()) { /* find メソッドが true なら一致する */
+			System.out.println("本人電話番号が一致します");
+		} else {
+			list.add("本人電話番号が一致します");
+			System.out.println("本人電話番号が不一致です");
+			System.out.println("Phone_number" + Phone_number);
+			response.getWriter().println("<p>本人電話番号が不一致です");
+		}
 
 
 		// --- 氏名の設定（エラーチェックもする）
 		if (Individuals_mail_address.isEmpty()) {
-			list.add("氏名の値が未設定になっています");
+			list.add("本人メールアドレス（※）の値が未設定になっています");
 		} else {
 			System.out.println("bean.getIndividuals_mail_address  " + bean.getIndividuals_mail_address());
 			System.out.println("Individuals_mail_address  " + Individuals_mail_address);
@@ -174,7 +198,7 @@ public class SampleUpdateGo extends HttpServlet {
 
 		// --- 氏名の設定（エラーチェックもする）
 		if (Guardians_name_in_Kanji.isEmpty()) {
-			list.add("氏名の値が未設定になっています");
+			list.add("保護者氏名（漢字）の値が未設定になっています");
 		} else {
 			System.out.println("bean.getGuardians_name_in_Kanji  " + bean.getGuardians_name_in_Kanji());
 			System.out.println("Guardians_name_in_Kanji  " + Guardians_name_in_Kanji);
@@ -183,7 +207,7 @@ public class SampleUpdateGo extends HttpServlet {
 
 		// --- 氏名の設定（エラーチェックもする）
 		if (Guardians_Pronunciation.isEmpty()) {
-			list.add("氏名の値が未設定になっています");
+			list.add("保護者ふりがなの値が未設定になっています");
 		} else {
 			System.out.println("bean.getGuardians_Pronunciation  " + bean.getGuardians_Pronunciation());
 			System.out.println("Guardians_Pronunciation  " + Guardians_Pronunciation);
@@ -192,16 +216,28 @@ public class SampleUpdateGo extends HttpServlet {
 
 		// --- 氏名の設定（エラーチェックもする）
 		if (Guardians_postal_code.isEmpty()) {
-			list.add("氏名の値が未設定になっています");
+			list.add("保護者郵便番号の値が未設定になっています");
 		} else {
 			System.out.println("bean.getGuardians_postal_code  " + bean.getGuardians_postal_code());
 			System.out.println("Guardians_postal_code  " + Guardians_postal_code);
 			bean.setGuardians_postal_code(Guardians_postal_code);
 		}
 
+		strPattern = "^[0-9]{7}$";
+		p = Pattern.compile(strPattern); /* 正規表現オブジェクトの準備 */
+		m = p.matcher(Guardians_postal_code); /* 正	規表現をマッチさせる */
+		if (m.find()) { /* find メソッドが true なら一致する */
+			System.out.println("保護者郵便番号が一致します");
+		} else {
+			list.add("保護者郵便番号が不一致です");
+			System.out.println("保護者郵便番号が不一致です");
+			System.out.println("Guardians_postal_code" + Guardians_postal_code);
+			response.getWriter().println("<p>保護者郵便番号が不一致です");
+			errSw = true;
+		}
 		// --- 氏名の設定（エラーチェックもする）
 		if (Guardians_address.isEmpty()) {
-			list.add("氏名の値が未設定になっています");
+			list.add("保護者住所の値が未設定になっています");
 		} else {
 			System.out.println("bean.getGuardians_address  " + bean.getGuardians_address());
 			System.out.println("Guardians_address " + Guardians_address);
@@ -210,16 +246,27 @@ public class SampleUpdateGo extends HttpServlet {
 
 		// --- 氏名の設定（エラーチェックもする）
 		if (Parent_Guardian_Phone_Number.isEmpty()) {
-			list.add("氏名の値が未設定になっています");
+			list.add("保護者電話番号の値が未設定になっています");
 		} else {
 			System.out.println("bean.getParent_Guardian_Phone_Number  " + bean.getParent_Guardian_Phone_Number());
 			System.out.println("Parent_Guardian_Phone_Number  " + Parent_Guardian_Phone_Number);
 			bean.setParent_Guardian_Phone_Number(Parent_Guardian_Phone_Number);
 		}
 
+		strPattern = "^[0-9][0-9¥¥-]*$"; /* 正規表現文字列 */
+		p = Pattern.compile(strPattern); /* 正規表現オブジェクトの準備 */
+		m = p.matcher(Parent_Guardian_Phone_Number); /* 正規表現をマッチさせる */
+		if (m.find()) { /* find メソッドが true なら一致する */
+			System.out.println("保護者電話番号が一致します");
+		} else {
+			list.add("保護者電話番号が不一致です");
+			System.out.println("保護者電話番号が不一致です");
+			System.out.println("Parent_Guardian_Phone_Number" + Parent_Guardian_Phone_Number);
+			response.getWriter().println("<p>保護者電話番号が不一致です");
+		}
 		// --- 氏名の設定（エラーチェックもする）
 		if (Guardians_email_address.isEmpty()) {
-			list.add("氏名の値が未設定になっています");
+			list.add("保護者メールアドレス（※）の値が未設定になっています");
 		} else {
 			System.out.println("bean.getGuardians_email_address  " + bean.getGuardians_email_address());
 			System.out.println("Guardians_email_address  " + Guardians_email_address);
