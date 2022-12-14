@@ -37,6 +37,7 @@ public class SampleSearch extends HttpServlet {
 		} catch(Exception e) {
 			response.getWriter().print(e.getMessage());
 		}	
+		
 	}
 
 }

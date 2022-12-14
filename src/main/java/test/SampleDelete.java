@@ -44,6 +44,7 @@ public class SampleDelete extends HttpServlet {
 	    request.setAttribute("data", bean);
 	    request.getRequestDispatcher("sampleDelete.jsp").forward(request, response);
 	}
+	
     }
 
 }

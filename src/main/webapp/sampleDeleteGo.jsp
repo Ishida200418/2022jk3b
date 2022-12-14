@@ -43,6 +43,7 @@ td {
 	text-align: center;
 }
 
+
 h2 {
 	text-align: center;
 }

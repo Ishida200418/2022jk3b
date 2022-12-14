@@ -44,6 +44,7 @@ th, td {
 	padding: 5px;
 }
 
+
 h1 {
 	text-align: center;
 }
@@ -78,11 +79,13 @@ h1 {
 		return;
 	}
 	%>
+	
+	<%String status = (String) request.getAttribute("status");%>
 	<h1>データの詳細</h1>
 	<p>
 		学籍番号：<%=bean.getStudent_ID_Number()%></p>
 	<p>
-		在籍状態：<%=bean.getEnrollment_Status()%></p>
+		在籍状態：<%=status%></p>
 	<p>
 		在籍状態確定日：<%=bean.getEnrollment_Status_Date()%>
 	</p>

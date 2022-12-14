@@ -30,6 +30,7 @@ h2 {
 form {
 	text-align: center;
 }
+
 th, td {
 	padding: 5px;
 }
@@ -41,6 +42,7 @@ h1 {
 .formarea {
 	margin-left: 30px;
 }
+
 
 .buttonarea {
 	margin-top: 20px;
@@ -60,6 +62,8 @@ h1 {
 </style>
 </head>
 <body>
+
+	<%String status = (String) request.getAttribute("status");%>
 	<%
 	//--- データの取得
 	SampleDataBean bean = (SampleDataBean) request.getAttribute("data");
@@ -72,21 +76,33 @@ h1 {
 	<form method="get" action="updatego">
 		<p>
 			学籍番号：<%=bean.getStudent_ID_Number()%></p>
+
+		<label>在籍状態：</label> <select name="Enrollment_Status"
+			class=" form-select-lg mb-3" aria-label="Default select example">
+			<option value="<%=bean.getEnrollment_Status()%>"><%=status%></option>
+			<option value="0">在学</option>
+			<option value="1">休学</option>
+			<option value="2">退学</option>
+			<option value="3">除籍</option>
+		</select>
+
+		<!-- 
 		<p>
 			在籍状態：<input type="number" name="Enrollment_Status"
-				value="<%=bean.getEnrollment_Status()%>"  min="0" max="3" required>
+				value="<%=bean.getEnrollment_Status()%>" min="0" max="3" required>
 		</p>
 		<p>
 			在籍状態確定日：<input type="date" name="Enrollment_Status_Date"
 				value="<%=bean.getEnrollment_Status_Date()%>" required>
-		</p>
+		</p> -->
 		<p>
 			学生氏名（漢字）：<input type="text" name="Student_Name"
 				value="<%=bean.getStudent_Name()%>" required>
 		</p>
 		<p>
 			学生ふりがな：<input type="text" name="Student_Pronunciation"
-				value="<%=bean.getStudent_Pronunciation()%>" required pattern="[\u3041-\u3096]*">
+				value="<%=bean.getStudent_Pronunciation()%>" required
+				pattern="[\u3041-\u3096]*">
 		</p>
 		<p>
 			生年月日：<input type="date" name="Date_of_birth"
@@ -114,7 +130,8 @@ h1 {
 		</p>
 		<p>
 			保護者ふりがな：<input type="text" name="Guardians_Pronunciation"
-				value="<%=bean.getGuardians_Pronunciation()%>" required pattern="[\u3041-\u3096]*">
+				value="<%=bean.getGuardians_Pronunciation()%>" required
+				pattern="[\u3041-\u3096]*">
 		</p>
 		<p>
 			保護者郵便番号：<input type="text" name="Guardians_postal_code"

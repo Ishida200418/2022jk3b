@@ -41,5 +41,7 @@ public class Dbtest extends HttpServlet {
 			response.getWriter().print(e.getMessage());
 		}
 		
+		
 	}
 }
+

@@ -39,5 +39,6 @@ public class SampleSelect extends HttpServlet {
 			}
 		}
 		response.sendRedirect("displayall");
+		
 	}
 }
