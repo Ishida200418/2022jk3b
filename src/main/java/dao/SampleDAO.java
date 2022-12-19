@@ -96,8 +96,10 @@ public class SampleDAO extends Conn implements Serializable {
 		return data;
 	}
 
-	// --- 全ページ数を返却する
+//	---全ページ数を返却する
+
 	public int getMaxPage(String keyword) {
+		System.out.println("getMaxPage  ");
 		int allPage = -1;
 		try {
 			String sql = "select count(*) as cnt from gakusei_master where Student_Name like ?";
@@ -107,12 +109,54 @@ public class SampleDAO extends Conn implements Serializable {
 			ResultSet rs = st.executeQuery();
 			rs.next();
 			int records = rs.getInt("cnt");
+			System.out.println("records  " + records);
 			allPage = (records - 1) / MAXROW + 1;
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("e  " + e);
 			allPage = 0;
 		}
-		System.out.println(allPage);
+		System.out.println("allPage" + allPage);
+		return allPage;
+	}
+	
+
+
+	// --- 全ページ数を返却する
+	public int getMaxPage2(String keyword, ArrayList<Integer> hoge) {
+		System.out.println("getMaxPage2  ");
+		int allPage = -1;
+		try {
+			String sql = "";
+			sql = "select count(*) as cnt from gakusei_master where (Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ?) or Student_ID_Number like ? or Student_Name like ? or Student_Pronunciation like ?;";
+
+			PreparedStatement st = con.prepareStatement(sql);
+//			Statement st = con.createStatement();
+
+//			System.out.println("baseRow: " + baseRow);
+//			System.out.println("MAXROW: " + MAXROW);
+//			int int_status=0;
+
+			System.out.println("hoge.size() " + hoge.size());
+			for (int i = 0; i < hoge.size(); i++) {
+				System.out.println("hoge.get(i) " + hoge.get(i));
+				st.setInt(i + 1, hoge.get(i));
+			}
+
+			st.setString(5, "%" + keyword + "%");
+			st.setString(6, "%" + keyword + "%");
+			st.setString(7, "%" + keyword + "%");
+			ResultSet rs = st.executeQuery();
+			rs.next();
+			int records = rs.getInt("cnt");
+			System.out.println("records: " + records);
+			allPage = (records - 1) / MAXROW + 1;
+		} catch (Exception e) {
+			System.out.println("e  " + e);
+			e.printStackTrace();
+			allPage = 0;
+		}
+		System.out.println("allPage" + allPage);
 		return allPage;
 	}
 

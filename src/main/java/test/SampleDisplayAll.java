@@ -72,7 +72,7 @@ public class SampleDisplayAll extends HttpServlet {
 
 		while (count < 4) {
 			System.out.println("v = " + count);
-			hoge.add(-1);
+			hoge.add(4);
 			count += 1;
 		}
 
@@ -90,8 +90,20 @@ public class SampleDisplayAll extends HttpServlet {
 		request.setAttribute("page", page);
 		System.out.println("page " + page);
 		// 総ページ数を送る
-		request.setAttribute("allpage", dao.getMaxPage(keyword));
-		System.out.println("allpage " + dao.getMaxPage(keyword));
+		if (status != null) {
+			request.setAttribute("allpage", dao.getMaxPage2(keyword, hoge));
+			System.out.println("allpage " + dao.getMaxPage2(keyword, hoge));
+
+//			request.setAttribute("allpage", dao.getMaxPage(keyword));
+//			System.out.println("allpage " + dao.getMaxPage(keyword));
+		} else {
+
+			request.setAttribute("allpage", dao.getMaxPage2(keyword, hoge));
+			System.out.println("allpage " + dao.getMaxPage2(keyword, hoge));
+
+//			request.setAttribute("allpage", dao.getMaxPage(keyword));
+//			System.out.println("allpage " + dao.getMaxPage(keyword));
+		}
 		// キーワードを送る
 		request.setAttribute("keyword", keyword);
 		System.out.println("keyword " + keyword);
