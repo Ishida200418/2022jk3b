@@ -48,6 +48,7 @@ public class SampleDisplayAll extends HttpServlet {
 		if (status == null) {
 			status = "";
 		}
+		
 		System.out.println("status " +status);
 		
 		

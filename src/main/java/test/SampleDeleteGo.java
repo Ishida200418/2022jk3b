@@ -41,6 +41,7 @@ public class SampleDeleteGo extends HttpServlet {
 	    request.setAttribute("message", resultMessage);
 	    request.getRequestDispatcher("sampleDeleteGo.jsp").forward(request, response);
 	}
+	
 
     }
 

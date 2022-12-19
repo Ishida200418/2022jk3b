@@ -44,6 +44,7 @@ th, td {
 	padding: 5px;
 }
 
+
 h1 {
 	text-align: center;
 }
