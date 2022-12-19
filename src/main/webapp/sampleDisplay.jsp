@@ -81,9 +81,7 @@ h1 {
 		String keyword = (String) request.getAttribute("keyword");
 		%>
 		<form class="formarea" method="get" action="select">
-
-			<input type="hidden" name="page" value=<%=currentPage%>> <input
-				type="hidden" name="allpage" value=<%=allPage%>> キーワード <input
+キーワード <input
 				type="text" name="keyword" value=<%=keyword%>><br>在籍（除外）<br>
 			<input type="checkbox" name="status" value=0>在学 <br> <input
 				type="checkbox" name="status" value=1>休学 <br> <input
