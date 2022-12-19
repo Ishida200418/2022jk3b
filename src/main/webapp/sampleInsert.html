@@ -43,6 +43,7 @@ h1 {
 	text-align: center;
 }
 
+
 .formarea {
 	margin-left: 30px;
 }
@@ -70,12 +71,23 @@ h1 {
 		<p>
 			学籍番号：<input type="number" name="Student_ID_Number" required>
 		</p>
+		
+			
+		<label>在籍状態：</label>
+		<select name="Enrollment_Status" class=" form-select-lg mb-3"
+			aria-label="Default select example">
+			<option value="0">在学</option>
+			<option value="1">休学</option>
+			<option value="2">退学</option>
+			<option value="3">除籍</option>
+		</select>
+		<!-- 
+		<p>
 		<p>
 			在籍状態：<input type="number" name="Enrollment_Status" min="0" max="3" required>
 		</p>
-		<p>
 			在籍状態確定日：<input type="date" name="Enrollment_Status_Date" required>
-		</p>
+		</p> -->
 		<p>
 			学生氏名（漢字）：<input type="text" name="Student_Name" required>
 		</p>

@@ -40,13 +40,26 @@ public class SampleUser extends HttpServlet {
 				errflag = true;
 			}
 		}
+		
 
+		String status="";
+		if (bean.getEnrollment_Status() == 0 ) {
+			status = "在学";
+		}else if (bean.getEnrollment_Status() == 1) {
+			status = "休学";
+		}else if (bean.getEnrollment_Status() == 2) {
+			status = "退学";
+			
+		}else if (bean.getEnrollment_Status() == 3) {
+			status = "除籍";
+		}
 		// --- エラーがあれば displayall へ戻る
 		if (errflag) {
 			response.sendRedirect("displayall");
 		} else {
 
 			// --- 更新用のフォームを呼び出す
+			request.setAttribute("status", status);
 			request.setAttribute("data", bean);
 			request.getRequestDispatcher("sampleUser.jsp").forward(request, response);
 		}

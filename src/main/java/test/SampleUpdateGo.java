@@ -26,6 +26,18 @@ public class SampleUpdateGo extends HttpServlet {
 		super();
 	}
 
+	static public final String DATE_PATTERN = "yyyy-MM-dd";
+
+	public static String parseDateToString(Date date) {
+		String str;
+		if (date == null) {
+			str = null;
+		} else {
+			str = new SimpleDateFormat(DATE_PATTERN).format(date);
+		}
+		return str;
+	}
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
@@ -36,6 +48,7 @@ public class SampleUpdateGo extends HttpServlet {
 			response.sendRedirect("displayall");
 			return;
 		}
+		
 
 		// --- エラーメッセージを格納する配列
 		List<String> list = new ArrayList();
@@ -56,10 +69,21 @@ public class SampleUpdateGo extends HttpServlet {
 		Date Enrollment_Status_Date = null;
 //		Date Enrollment_Status_Date = null;
 		try {
-			Enrollment_Status_Date = sdFormat.parse(request.getParameter("Enrollment_Status_Date"));
+//			Enrollment_Status_Date = sdFormat.parse(request.getParameter("Enrollment_Status_Date"));
 //			bean.setEnrollment_Status_Date(sdFormat.parse(request.getParameter("Enrollment_Status_Date")));
-            String str = new SimpleDateFormat("yyyy-MM-dd").format(Enrollment_Status_Date);
-			bean.setEnrollment_Status_Date(str);
+//            String str = new SimpleDateFormat("yyyy-MM-dd").format(Enrollment_Status_Date);
+
+//			bean.setEnrollment_Status_Date(str);
+
+			String d1 = "";
+			Date d = new Date();
+			d1 = parseDateToString(d);
+			Enrollment_Status_Date = sdFormat.parse(d1);
+
+			System.out.println("d1  " + d1);
+			System.out.println("Enrollment_Status_Date  " + Enrollment_Status_Date);
+			bean.setEnrollment_Status_Date(d1);
+
 		} catch (ParseException e1) {
 			// TODO 自動生成された catch ブロック
 			e1.printStackTrace();
@@ -73,7 +97,7 @@ public class SampleUpdateGo extends HttpServlet {
 		try {
 			Date_of_birth = sdFormat.parse(request.getParameter("Date_of_birth"));
 //			bean.setEnrollment_Status_Date(sdFormat.parse(request.getParameter("Enrollment_Status_Date")));
-            String str = new SimpleDateFormat("yyyy-MM-dd").format(Date_of_birth);
+			String str = new SimpleDateFormat("yyyy-MM-dd").format(Date_of_birth);
 			bean.setDate_of_birth(str);
 		} catch (ParseException e1) {
 			// TODO 自動生成された catch ブロック
@@ -92,9 +116,6 @@ public class SampleUpdateGo extends HttpServlet {
 		String Parent_Guardian_Phone_Number = request.getParameter("Parent_Guardian_Phone_Number");
 		String Guardians_email_address = request.getParameter("Guardians_email_address");
 
-		
-		
-		
 		System.out.println("----------------------------------------------------------------- ");
 		// --- ID の設定（エラーチェックもする）
 		try {
@@ -185,7 +206,6 @@ public class SampleUpdateGo extends HttpServlet {
 			response.getWriter().println("<p>本人電話番号が不一致です");
 		}
 
-
 		// --- 氏名の設定（エラーチェックもする）
 		if (Individuals_mail_address.isEmpty()) {
 			list.add("本人メールアドレス（※）の値が未設定になっています");
@@ -194,7 +214,6 @@ public class SampleUpdateGo extends HttpServlet {
 			System.out.println("Individuals_mail_address  " + Individuals_mail_address);
 			bean.setIndividuals_mail_address(Individuals_mail_address);
 		}
-
 
 		// --- 氏名の設定（エラーチェックもする）
 		if (Guardians_name_in_Kanji.isEmpty()) {
@@ -225,7 +244,7 @@ public class SampleUpdateGo extends HttpServlet {
 
 		strPattern = "^[0-9]{7}$";
 		p = Pattern.compile(strPattern); /* 正規表現オブジェクトの準備 */
-		m = p.matcher(Guardians_postal_code); /* 正	規表現をマッチさせる */
+		m = p.matcher(Guardians_postal_code); /* 正 規表現をマッチさせる */
 		if (m.find()) { /* find メソッドが true なら一致する */
 			System.out.println("保護者郵便番号が一致します");
 		} else {
@@ -273,12 +292,6 @@ public class SampleUpdateGo extends HttpServlet {
 			bean.setGuardians_email_address(Guardians_email_address);
 		}
 
-
-		
-		
-		
-		
-		
 		// --- DAO の updateata を呼び出す。
 		if (list.size() == 0) {
 			int result = dao.updateDataAll(bean);

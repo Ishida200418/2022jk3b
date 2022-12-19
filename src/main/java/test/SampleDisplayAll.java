@@ -27,7 +27,7 @@ public class SampleDisplayAll extends HttpServlet {
 
 		// --- get 送信されるページ番号を取得する 無ければ 1
 		String strPage = (String) request.getParameter("page");
-		
+
 		int page = 1;
 		if (strPage != null) {
 			try {
@@ -42,19 +42,47 @@ public class SampleDisplayAll extends HttpServlet {
 		if (keyword == null) {
 			keyword = "";
 		}
-		
 
-		String status = (String) request.getParameter("status");
-		if (status == null) {
-			status = "";
+//		String status = (String) request.getParameter("status");
+
+		String[] status = request.getParameterValues("status");
+
+//		if (status == null) {
+//			status = "";
+//		}
+
+		if (status != null) {
+			System.out.println("status " + status);
+
+			System.out.println("要素数 = " + status.length);
 		}
-		System.out.println("status " +status);
-		
-		
+
+		int num = 0;
+
+		ArrayList<Integer> hoge = new ArrayList<Integer>();
+
+		int count = 0;
+		if (status != null) {
+			for (String lan : status) {
+				System.out.println("lan " + lan);
+				hoge.add(Integer.parseInt(lan));
+			}
+			count = status.length;
+		}
+
+		while (count < 4) {
+			System.out.println("v = " + count);
+			hoge.add(-1);
+			count += 1;
+		}
+
+		System.out.println("hoge = " + hoge.size());
+
 		// SampleDAO のgetAllData メソッドを呼び出して全データを取り出し、list へ格納
 		List<SampleDataBean> list = new ArrayList<SampleDataBean>();
 		SampleDAO dao = new SampleDAO();
-		list = dao.getAllData(page, keyword,status);
+//		list = dao.getAllData(page, keyword, status);
+		list = dao.getAllData(page, keyword, hoge);
 		// list をjsp へ送るための設定
 		request.setAttribute("data", list);
 		System.out.println("data " + list);

@@ -27,6 +27,18 @@ public class SampleInsert extends HttpServlet {
 		super();
 	}
 
+	static public final String DATE_PATTERN = "yyyy-MM-dd";
+
+	public static String parseDateToString(Date date) {
+		String str;
+		if (date == null) {
+			str = null;
+		} else {
+			str = new SimpleDateFormat(DATE_PATTERN).format(date);
+		}
+		return str;
+	}
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
@@ -39,9 +51,15 @@ public class SampleInsert extends HttpServlet {
 		String strEnrollment_Status = request.getParameter("Enrollment_Status");
 
 		System.out.println("Enrollment_Status_Date  " + request.getParameter("Enrollment_Status_Date"));
+
+		String d1 = "";
 		Date Enrollment_Status_Date = null;
 		try {
-			Enrollment_Status_Date = sdFormat.parse(request.getParameter("Enrollment_Status_Date"));
+//			Enrollment_Status_Date = sdFormat.parse(request.getParameter("Enrollment_Status_Date"));
+			Date d = new Date();
+			d1 = parseDateToString(d);
+			Enrollment_Status_Date = sdFormat.parse(d1);
+
 			System.out.println("Enrollment_Status_Date  " + Enrollment_Status_Date);
 		} catch (ParseException e1) {
 			// TODO 自動生成された catch ブロック
@@ -68,7 +86,7 @@ public class SampleInsert extends HttpServlet {
 		} else {
 			response.getWriter().println("<p>誕生日の値が適切ではありません。</p>");
 		}
-		
+
 		String Students_postal_code = request.getParameter("Students_postal_code");
 		String Students_address = request.getParameter("Students_address");
 		String Phone_number = request.getParameter("Phone_number");
@@ -97,6 +115,7 @@ public class SampleInsert extends HttpServlet {
 				errSw = true;
 			}
 		}
+		
 		// --- 番号が空か、および値が数値かを判断
 		if (strEnrollment_Status == null || strEnrollment_Status == "") {
 			response.getWriter().println("<p>在籍状態が入力されていません</p>");
@@ -123,7 +142,7 @@ public class SampleInsert extends HttpServlet {
 		}
 		String strPattern = "^[0-9]{7}$";
 		Pattern p = Pattern.compile(strPattern); /* 正規表現オブジェクトの準備 */
-		Matcher m = p.matcher(Phone_number); /* 正規表現をマッチさせる */
+		Matcher m = p.matcher(Students_postal_code); /* 正規表現をマッチさせる */
 		if (m.find()) { /* find メソッドが true なら一致する */
 			System.out.println("本人郵便番号が一致します");
 		} else {
@@ -168,7 +187,7 @@ public class SampleInsert extends HttpServlet {
 		}
 		strPattern = "^[0-9]{7}$";
 		p = Pattern.compile(strPattern); /* 正規表現オブジェクトの準備 */
-		m = p.matcher(Phone_number); /* 正規表現をマッチさせる */
+		m = p.matcher(Guardians_postal_code); /* 正	規表現をマッチさせる */
 		if (m.find()) { /* find メソッドが true なら一致する */
 			System.out.println("保護者郵便番号が一致します");
 		} else {
@@ -186,7 +205,7 @@ public class SampleInsert extends HttpServlet {
 		}
 		strPattern = "^[0-9][0-9¥¥-]*$"; /* 正規表現文字列 */
 		p = Pattern.compile(strPattern); /* 正規表現オブジェクトの準備 */
-		m = p.matcher(Phone_number); /* 正規表現をマッチさせる */
+		m = p.matcher(Parent_Guardian_Phone_Number); /* 正規表現をマッチさせる */
 		if (m.find()) { /* find メソッドが true なら一致する */
 			System.out.println("保護者電話番号が一致します");
 		} else {
@@ -209,7 +228,11 @@ public class SampleInsert extends HttpServlet {
 				System.out.println("Student_ID_Number  " + Student_ID_Number);
 				bean.setEnrollment_Status(Enrollment_Status);
 				System.out.println("Enrollment_Status  " + Enrollment_Status);
-				bean.setEnrollment_Status_Date(request.getParameter("Enrollment_Status_Date"));
+//				bean.setEnrollment_Status_Date(request.getParameter("Enrollment_Status_Date"));
+				bean.setEnrollment_Status_Date(d1);
+
+				System.out.println("d1  " + d1);
+				System.out.println("Enrollment_Status_Date  " + Enrollment_Status_Date);
 				System.out.println("request.getParameter(\"Enrollment_Status_Date\")  "
 						+ request.getParameter("Enrollment_Status_Date"));
 				bean.setStudent_Name(Student_Name);

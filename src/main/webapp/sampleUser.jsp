@@ -33,6 +33,7 @@ td {
 h2 {
 	text-align: center;
 }
+
 p {
 	text-align: center;
 }
@@ -40,6 +41,7 @@ p {
 form {
 	text-align: center;
 }
+
 th, td {
 	padding: 5px;
 }
@@ -67,6 +69,24 @@ h1 {
 	padding: 10px;
 	color: #999999;
 }
+
+.buttonImage {
+	display: inline-block;
+	font-size: 0.8em;
+	background-color: #eeeeee;
+	border: solid 1px #333333;
+	border-radius: 3px;
+	color: #000000;
+	width: fit-content;
+	padding: 2px 5px;
+	text-align: center;
+	text-decoration: none;
+	cursor: arrow;
+}
+
+.buttonImage:hover {
+	background-color: #dddddd;
+}
 </style>
 </head>
 <body>
@@ -78,11 +98,13 @@ h1 {
 		return;
 	}
 	%>
+
+	<%String status = (String) request.getAttribute("status");%>
 	<h1>データの詳細</h1>
 	<p>
 		学籍番号：<%=bean.getStudent_ID_Number()%></p>
 	<p>
-		在籍状態：<%=bean.getEnrollment_Status()%></p>
+		在籍状態：<%=status%></p>
 	<p>
 		在籍状態確定日：<%=bean.getEnrollment_Status_Date()%>
 	</p>
@@ -128,13 +150,14 @@ h1 {
 	</p>
 
 
-<p>
-	<a href="update?Student_ID_Number=<%=bean.getStudent_ID_Number()%>"
-		class="buttonImage">編集</a>
+	<p>
+		<a href="update?Student_ID_Number=<%=bean.getStudent_ID_Number()%>"
+			class="buttonImage">編集</a>
 
 	</p>
 	<p>
 
-	<a href="displayall" class="buttonImage">一覧へ戻る</a></p>
+		<a href="displayall" class="buttonImage">一覧へ戻る</a>
+	</p>
 </body>
 </html>
