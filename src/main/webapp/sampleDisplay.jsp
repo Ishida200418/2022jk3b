@@ -72,13 +72,17 @@ h1 {
 		<h1>データ一覧</h1>
 	</header>
 	<main>
+		<%
+		//--- 現在のページを取得
+		int currentPage = (Integer) request.getAttribute("page");
+		//--- 全ページ数を取得
+		int allPage = (Integer) request.getAttribute("allpage");
+		//--- キーワードを取得
+		String keyword = (String) request.getAttribute("keyword");
+		%>
 		<form class="formarea" method="get" action="select">
-			キーワード <input type="text" name="keyword"><br>在籍（除外）<br>
-
-
-
-
-
+キーワード <input
+				type="text" name="keyword" value=<%=keyword%>><br>在籍（除外）<br>
 			<input type="checkbox" name="status" value=0>在学 <br> <input
 				type="checkbox" name="status" value=1>休学 <br> <input
 				type="checkbox" name="status" value=2>退学 <br> <input
@@ -86,10 +90,7 @@ h1 {
 			<button type="submit" name="submit" value="search">検索</button>
 		</form>
 
-
-
-
-
+		<br>
 
 		<form class="formarea" method="get" action="select">
 			<table>
@@ -120,12 +121,6 @@ h1 {
 				%>
 			</table>
 			<%
-			//--- 現在のページを取得
-			int currentPage = (Integer) request.getAttribute("page");
-			//--- 全ページ数を取得
-			int allPage = (Integer) request.getAttribute("allpage");
-			//--- キーワードを取得
-			String keyword = (String) request.getAttribute("keyword");
 			if (keyword == null) {
 				keyword = "";
 			}
@@ -174,6 +169,7 @@ h1 {
 			//---- "へ"の表示 ただし、現在ページが最終ページならリンクは設定しない
 			if (currentPage < allPage) {
 			%>
+
 			<a class="linkStyle"
 				href="displayall?page=<%=(currentPage + 1)%>&keyword=<%=keyword%>">
 				次へ</a>
