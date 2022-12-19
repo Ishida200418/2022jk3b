@@ -43,9 +43,7 @@ th, td {
 }
 
 h1 {
-
 	text-align: center;
-	
 }
 
 .formarea {
@@ -75,19 +73,40 @@ h1 {
 	</header>
 	<main>
 		<form class="formarea" method="get" action="select">
-			キーワード <input type="text" name="keyword"> 在籍 <select
+			キーワード
+			 <input type="text" name="keyword"><br>在籍 
+			
+
+				<!-- 
+			<select
 				name="status" class=" form-select-lg mb-3"
 				aria-label="Default select example">
-
-
 				<option value="">全て</option>
 				<option value="0">在学</option>
 				<option value="1">休学</option>
 				<option value="2">退学</option>
 				<option value="3">除籍</option>
 			</select>
+				 -->
+
+
+
+				<input type="checkbox" name="status" value=0>在学
+				<br>
+				<input type="checkbox" name="status" value=1>休学
+				<br>
+				<input type="checkbox" name="status" value=2>退学
+				<br>
+				<input type="checkbox" name="status" value=3>除籍
+				<br>
 			<button type="submit" name="submit" value="search">検索</button>
 		</form>
+
+
+
+
+
+
 		<form class="formarea" method="get" action="select">
 			<table>
 				<tr>

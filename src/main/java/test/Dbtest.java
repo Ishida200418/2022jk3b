@@ -26,22 +26,28 @@ public class Dbtest extends HttpServlet {
 	String keyword = "";
 	String status = "";
 
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.setContentType("text/html; charset=utf-8");
 
+		ArrayList<Integer> hoge = new ArrayList<Integer>();
+		hoge.add(-1);
+		hoge.add(-1);
+		hoge.add(-1);
+		hoge.add(-1);
 		try {
 			List<SampleDataBean> b = new ArrayList<SampleDataBean>();
 			SampleDAO sb = new SampleDAO();
-			b = sb.getAllData(page, keyword,status);
-			for(SampleDataBean x : b) {
-				response.getWriter().print(x.getStudent_ID_Number() + "," + x.getStudent_Name() + "," + x.getStudent_Name() + "<br>");
-			}	
-		} catch(Exception e) {
+//			b = sb.getAllData(page, keyword,status);
+			b = sb.getAllData(page, keyword, hoge);
+
+			for (SampleDataBean x : b) {
+				response.getWriter().print(
+						x.getStudent_ID_Number() + "," + x.getStudent_Name() + "," + x.getStudent_Name() + "<br>");
+			}
+		} catch (Exception e) {
 			response.getWriter().print(e.getMessage());
 		}
-		
-		
+
 	}
 }
-

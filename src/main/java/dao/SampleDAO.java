@@ -20,7 +20,8 @@ public class SampleDAO extends Conn implements Serializable {
 	}
 
 	// --- sample テーブルから取り出したデータを ArrayList に格納して返却する
-	public List<SampleDataBean> getAllData(int page, String keyword, String status) {
+//	public List<SampleDataBean> getAllData(int page, String keyword, String[] status) {
+	public List<SampleDataBean> getAllData(int page, String keyword, ArrayList<Integer> hoge) {
 		List<SampleDataBean> data = new ArrayList<SampleDataBean>();
 		try {
 
@@ -45,7 +46,7 @@ public class SampleDAO extends Conn implements Serializable {
 //			ResultSet rs = st.executeQuery(sql);
 //			System.out.println("-------------------- ");
 
-			sql = "select * from gakusei_master where Enrollment_Status like ? and (Student_ID_Number like ? or Student_Name like ? or Student_Pronunciation like ?) limit ?, ?;";
+			sql = "select * from gakusei_master where (Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ?) and (Student_ID_Number like ? or Student_Name like ? or Student_Pronunciation like ?) limit ?, ?;";
 
 			System.out.println("sql " + sql);
 			PreparedStatement st = con.prepareStatement(sql);
@@ -55,18 +56,18 @@ public class SampleDAO extends Conn implements Serializable {
 //			System.out.println("baseRow: " + baseRow);
 //			System.out.println("MAXROW: " + MAXROW);;
 //			int int_status=0;
-			if (status == null || status == "") {
-				st.setString(1, "%");
-			} else {
-				st.setString(1, status);
-//				System.out.println("db status " + status);
-//				int_status = Integer.parseInt(status);
+
+			System.out.println("hoge.size() " + hoge.size());
+			for (int i = 0; i < hoge.size(); i++) {
+				System.out.println("hoge.get(i) " + hoge.get(i));
+				st.setInt(i + 1, hoge.get(i));
 			}
-			st.setString(2, "%" + keyword + "%");
-			st.setString(3, "%" + keyword + "%");
-			st.setString(4, "%" + keyword + "%");
-			st.setInt(5, baseRow);
-			st.setInt(6, MAXROW);
+
+			st.setString(5, "%" + keyword + "%");
+			st.setString(6, "%" + keyword + "%");
+			st.setString(7, "%" + keyword + "%");
+			st.setInt(8, baseRow);
+			st.setInt(9, MAXROW);
 			System.out.println("-------------------- ");
 			ResultSet rs = st.executeQuery();
 			System.out.println("-------------------- ");
@@ -84,7 +85,9 @@ public class SampleDAO extends Conn implements Serializable {
 				b.setStudent_Pronunciation(Student_Pronunciation);
 				data.add(b);
 			}
-		} catch (Exception e) {
+		} catch (
+
+		Exception e) {
 			System.out.println("---------------------------------------- ");
 			System.out.println("e " + e);
 			System.out.println("--------------------------------------------- ");
