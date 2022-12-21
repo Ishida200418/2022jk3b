@@ -45,8 +45,12 @@ public class SampleDAO extends Conn implements Serializable {
 //			System.out.println("-------------------- ");
 //			ResultSet rs = st.executeQuery(sql);
 //			System.out.println("-------------------- ");
+			sql = "select * from gakusei_master where (Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ?) or Student_ID_Number like ? or Student_Name like ? or Student_Pronunciation like ? limit ?, ?;";
 
 			sql = "select * from gakusei_master where (Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ?) and (Student_ID_Number like ? or Student_Name like ? or Student_Pronunciation like ?) limit ?, ?;";
+
+
+
 
 			System.out.println("sql " + sql);
 			PreparedStatement st = con.prepareStatement(sql);
@@ -129,6 +133,9 @@ public class SampleDAO extends Conn implements Serializable {
 		try {
 			String sql = "";
 			sql = "select count(*) as cnt from gakusei_master where (Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ?) or Student_ID_Number like ? or Student_Name like ? or Student_Pronunciation like ?;";
+
+
+			sql = "select count(*) as cnt from gakusei_master where (Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ?) and (Student_ID_Number like ? or Student_Name like ? or Student_Pronunciation like ?);";
 
 			PreparedStatement st = con.prepareStatement(sql);
 //			Statement st = con.createStatement();
