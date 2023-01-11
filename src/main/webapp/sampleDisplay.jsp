@@ -69,7 +69,7 @@ h1 {
 </head>
 <body>
 	<header>
-		<h1>データ一覧</h1>
+		<h1>データ 一覧</h1>
 	</header>
 	<main>
 		<%
