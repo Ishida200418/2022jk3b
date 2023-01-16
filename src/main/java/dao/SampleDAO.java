@@ -283,8 +283,7 @@ public class SampleDAO extends Conn implements Serializable {
 
 			st.setInt(1, bean.getEnrollment_Status()); //
 			st.setString(2, bean.getEnrollment_Status_Date()); //
-			st.setString(3, bean.getStudent_Name()); //
-//			st.setDate(3, (Date) bean.getEnrollment_Status_Date()); /
+			st.setString(3, bean.getStudent_Name()); 
 			st.setString(4, bean.getStudent_Pronunciation()); // 
 			st.setString(5, bean.getDate_of_birth()); //
 			st.setString(6, bean.getStudents_postal_code()); //

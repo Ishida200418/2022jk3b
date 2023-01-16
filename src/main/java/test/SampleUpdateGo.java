@@ -56,24 +56,13 @@ public class SampleUpdateGo extends HttpServlet {
 		SampleDAO dao = new SampleDAO();
 		String strId = request.getParameter("Student_ID_Number");
 		SampleDataBean bean = dao.getOneRec(Integer.parseInt(strId));
-
-		// --- フォームデータの取得
-//		SampleDataBean bean = new SampleDataBean();
-
 		String strSimei = request.getParameter("Student_Name");
 		boolean errSw = false; // 送信されたデータに誤りがあればtrue にする
 
-//		SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy/mm/dd");
 		SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String strEnrollment_Status = request.getParameter("Enrollment_Status");
 		Date Enrollment_Status_Date = null;
-//		Date Enrollment_Status_Date = null;
 		try {
-//			Enrollment_Status_Date = sdFormat.parse(request.getParameter("Enrollment_Status_Date"));
-//			bean.setEnrollment_Status_Date(sdFormat.parse(request.getParameter("Enrollment_Status_Date")));
-//            String str = new SimpleDateFormat("yyyy-MM-dd").format(Enrollment_Status_Date);
-
-//			bean.setEnrollment_Status_Date(str);
 
 			String d1 = "";
 			Date d = new Date();
