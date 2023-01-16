@@ -14,6 +14,7 @@ import bean.SampleDataBean;
 import dao.SampleDAO;
 
 @WebServlet("/displayall")
+//　コメント
 public class SampleDisplayAll extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
