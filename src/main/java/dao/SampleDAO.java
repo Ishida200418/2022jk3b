@@ -19,8 +19,6 @@ public class SampleDAO extends Conn implements Serializable {
 		con = conn(); // --- スーパークラスのデータベース接続部分を呼び出す。conn という変数を利用して参照できる。
 	}
 
-	// --- sample テーブルから取り出したデータを ArrayList に格納して返却する
-//	public List<SampleDataBean> getAllData(int page, String keyword, String[] status) {
 	public List<SampleDataBean> getAllData(int page, String keyword, ArrayList<Integer> hoge) {
 		List<SampleDataBean> data = new ArrayList<SampleDataBean>();
 		try {
@@ -29,8 +27,6 @@ public class SampleDAO extends Conn implements Serializable {
 			if (keyword == null || keyword == "") {
 				keyword = "";
 			}
-
-			sql = "select * from gakusei_master where (Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ?) or Student_ID_Number like ? or Student_Name like ? or Student_Pronunciation like ? limit ?, ?;";
 
 			sql = "select * from gakusei_master where (Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ?) and (Student_ID_Number like ? or Student_Name like ? or Student_Pronunciation like ?) limit ?, ?;";
 
@@ -54,16 +50,16 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setString(7, "%" + keyword + "%");
 			st.setInt(8, baseRow);
 			st.setInt(9, MAXROW);
-			System.out.println("-------------------- ");
 			ResultSet rs = st.executeQuery();
-			System.out.println("-------------------- ");
 			while (rs.next()) {
 				int Student_ID_Number = rs.getInt("Student_ID_Number");
-				System.out.println("Student_ID_Number " + Student_ID_Number);
 				String Student_Name = rs.getString("Student_Name");
-				System.out.println("Student_Name " + Student_Name);
 				String Student_Pronunciation = rs.getString("Student_Pronunciation");
+				
+				System.out.println("Student_ID_Number " + Student_ID_Number);
+				System.out.println("Student_Name " + Student_Name);
 				System.out.println("Stu	dent_Pronunciation " + Student_Pronunciation);
+				
 				// ---- ArrayList へデータを追加する
 				SampleDataBean b = new SampleDataBean();
 				b.setStudent_ID_Number(Student_ID_Number);
@@ -76,7 +72,6 @@ public class SampleDAO extends Conn implements Serializable {
 		Exception e) {
 			System.out.println("---------------------------------------- ");
 			System.out.println("e " + e);
-			System.out.println("--------------------------------------------- ");
 			data = null;
 		}
 		return data;
@@ -95,10 +90,13 @@ public class SampleDAO extends Conn implements Serializable {
 			ResultSet rs = st.executeQuery();
 			rs.next();
 			int records = rs.getInt("cnt");
+			
 			System.out.println("records  " + records);
+			
 			allPage = (records - 1) / MAXROW + 1;
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("---------------------------------------- ");
 			System.out.println("e  " + e);
 			allPage = 0;
 		}
@@ -114,14 +112,13 @@ public class SampleDAO extends Conn implements Serializable {
 		int allPage = -1;
 		try {
 			String sql = "";
-			sql = "select count(*) as cnt from gakusei_master where (Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ?) or Student_ID_Number like ? or Student_Name like ? or Student_Pronunciation like ?;";
-
 
 			sql = "select count(*) as cnt from gakusei_master where (Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ?) and (Student_ID_Number like ? or Student_Name like ? or Student_Pronunciation like ?);";
 
 			PreparedStatement st = con.prepareStatement(sql);
 			System.out.println("hoge.size() " + hoge.size());
 			for (int i = 0; i < hoge.size(); i++) {
+				
 				System.out.println("hoge.get(i) " + hoge.get(i));
 				st.setInt(i + 1, hoge.get(i));
 			}
@@ -132,9 +129,12 @@ public class SampleDAO extends Conn implements Serializable {
 			ResultSet rs = st.executeQuery();
 			rs.next();
 			int records = rs.getInt("cnt");
+			
 			System.out.println("records: " + records);
 			allPage = (records - 1) / MAXROW + 1;
 		} catch (Exception e) {
+
+			System.out.println("---------------------------------------- ");
 			System.out.println("e  " + e);
 			e.printStackTrace();
 			allPage = 0;
@@ -165,6 +165,8 @@ public class SampleDAO extends Conn implements Serializable {
 				data.add(b);
 			}
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e  " + e);
 			e.printStackTrace();
 			data = null;
 		}
@@ -229,6 +231,8 @@ public class SampleDAO extends Conn implements Serializable {
 			data.setParent_Guardian_Phone_Number(rs.getString("Parent_Guardian_Phone_Number")); // 
 			data.setGuardians_email_address(rs.getString("Guardians_email_address")); // 
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e  " + e);
 			e.printStackTrace(); // しくじった時は念のためトレース表示
 			data = null;
 		}
@@ -300,6 +304,8 @@ public class SampleDAO extends Conn implements Serializable {
 
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e  " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -315,6 +321,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e  " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -330,6 +338,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e  " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -345,6 +355,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e  " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -360,6 +372,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e  " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -375,6 +389,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e  " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -390,6 +406,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e  " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -405,6 +423,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e  " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -420,6 +440,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e  " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -435,6 +457,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e  " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -450,6 +474,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e  " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -465,6 +491,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e  " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -480,6 +508,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e  " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -495,6 +525,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e  " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -510,6 +542,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e  " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
