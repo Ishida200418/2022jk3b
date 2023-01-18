@@ -14,6 +14,7 @@ import bean.SampleDataBean;
 import dao.SampleDAO;
 
 @WebServlet("/displayall")
+//　コメント
 public class SampleDisplayAll extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -43,13 +44,8 @@ public class SampleDisplayAll extends HttpServlet {
 			keyword = "";
 		}
 
-//		String status = (String) request.getParameter("status");
-
 		String[] status = request.getParameterValues("status");
 
-//		if (status == null) {
-//			status = "";
-//		}
 
 		if (status != null) {
 			System.out.println("status " + status);
@@ -94,15 +90,11 @@ public class SampleDisplayAll extends HttpServlet {
 			request.setAttribute("allpage", dao.getMaxPage2(keyword, hoge));
 			System.out.println("allpage " + dao.getMaxPage2(keyword, hoge));
 
-//			request.setAttribute("allpage", dao.getMaxPage(keyword));
-//			System.out.println("allpage " + dao.getMaxPage(keyword));
 		} else {
 
 			request.setAttribute("allpage", dao.getMaxPage2(keyword, hoge));
 			System.out.println("allpage " + dao.getMaxPage2(keyword, hoge));
 
-//			request.setAttribute("allpage", dao.getMaxPage(keyword));
-//			System.out.println("allpage " + dao.getMaxPage(keyword));
 		}
 		// キーワードを送る
 		request.setAttribute("keyword", keyword);

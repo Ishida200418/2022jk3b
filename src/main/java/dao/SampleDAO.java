@@ -19,8 +19,6 @@ public class SampleDAO extends Conn implements Serializable {
 		con = conn(); // --- スーパークラスのデータベース接続部分を呼び出す。conn という変数を利用して参照できる。
 	}
 
-	// --- sample テーブルから取り出したデータを ArrayList に格納して返却する
-//	public List<SampleDataBean> getAllData(int page, String keyword, String[] status) {
 	public List<SampleDataBean> getAllData(int page, String keyword, ArrayList<Integer> hoge) {
 		List<SampleDataBean> data = new ArrayList<SampleDataBean>();
 		try {
@@ -30,40 +28,17 @@ public class SampleDAO extends Conn implements Serializable {
 				keyword = "";
 			}
 
-//			System.out.println(page);
-//			System.out.println(keyword);
-//			String sql = "select * from gakusei_master;";
-//			System.out.println("sql " +  sql);
-//			Statement st = con.createStatement();
-//			
-//			int baseRow = (page - 1) * MAXROW;
-//			System.out.println("MAXROW " +  MAXROW);
-//			System.out.println("baseRow " +  baseRow);
-//			System.out.println("page " +  page);
-////			System.out.println("baseRow: " + baseRow);
-////			System.out.println("MAXROW: " + MAXROW);	
-//			System.out.println("-------------------- ");
-//			ResultSet rs = st.executeQuery(sql);
-//			System.out.println("-------------------- ");
-			sql = "select * from gakusei_master where (Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ?) or Student_ID_Number like ? or Student_Name like ? or Student_Pronunciation like ? limit ?, ?;";
-
 			sql = "select * from gakusei_master where (Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ?) and (Student_ID_Number like ? or Student_Name like ? or Student_Pronunciation like ?) limit ?, ?;";
-
-
-
 
 			System.out.println("sql " + sql);
 			PreparedStatement st = con.prepareStatement(sql);
 
 			int baseRow = (page - 1) * MAXROW;
-			System.out.println("page " + page);
-//			System.out.println("baseRow: " + baseRow);
-//			System.out.println("MAXROW: " + MAXROW);;
-//			int int_status=0;
+			System.out.println("page: " + page);
 
 			System.out.println("hoge.size() " + hoge.size());
 			for (int i = 0; i < hoge.size(); i++) {
-				System.out.println("hoge.get(i) " + hoge.get(i));
+				System.out.println("hoge.get(i): " + hoge.get(i));
 				st.setInt(i + 1, hoge.get(i));
 			}
 
@@ -72,16 +47,16 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setString(7, "%" + keyword + "%");
 			st.setInt(8, baseRow);
 			st.setInt(9, MAXROW);
-			System.out.println("-------------------- ");
 			ResultSet rs = st.executeQuery();
-			System.out.println("-------------------- ");
 			while (rs.next()) {
 				int Student_ID_Number = rs.getInt("Student_ID_Number");
-				System.out.println("Student_ID_Number " + Student_ID_Number);
 				String Student_Name = rs.getString("Student_Name");
-				System.out.println("Student_Name " + Student_Name);
 				String Student_Pronunciation = rs.getString("Student_Pronunciation");
-				System.out.println("Stu	dent_Pronunciation " + Student_Pronunciation);
+
+				System.out.println("Student_ID_Number: " + Student_ID_Number);
+				System.out.println("Student_Name: " + Student_Name);
+				System.out.println("Stu	dent_Pronunciation: " + Student_Pronunciation);
+
 				// ---- ArrayList へデータを追加する
 				SampleDataBean b = new SampleDataBean();
 				b.setStudent_ID_Number(Student_ID_Number);
@@ -93,8 +68,7 @@ public class SampleDAO extends Conn implements Serializable {
 
 		Exception e) {
 			System.out.println("---------------------------------------- ");
-			System.out.println("e " + e);
-			System.out.println("--------------------------------------------- ");
+			System.out.println("e: " + e);
 			data = null;
 		}
 		return data;
@@ -103,7 +77,7 @@ public class SampleDAO extends Conn implements Serializable {
 //	---全ページ数を返却する
 
 	public int getMaxPage(String keyword) {
-		System.out.println("getMaxPage  ");
+		System.out.println("getMaxPage:  ");
 		int allPage = -1;
 		try {
 			String sql = "select count(*) as cnt from gakusei_master where Student_Name like ?";
@@ -113,39 +87,33 @@ public class SampleDAO extends Conn implements Serializable {
 			ResultSet rs = st.executeQuery();
 			rs.next();
 			int records = rs.getInt("cnt");
-			System.out.println("records  " + records);
+
+			System.out.println("records:  " + records);
+
 			allPage = (records - 1) / MAXROW + 1;
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("e  " + e);
+			System.out.println("---------------------------------------- ");
+			System.out.println("e:  " + e);
 			allPage = 0;
 		}
 		System.out.println("allPage" + allPage);
 		return allPage;
 	}
-	
-
 
 	// --- 全ページ数を返却する
 	public int getMaxPage2(String keyword, ArrayList<Integer> hoge) {
-		System.out.println("getMaxPage2  ");
+		System.out.println("getMaxPage2:  ");
 		int allPage = -1;
 		try {
 			String sql = "";
-			sql = "select count(*) as cnt from gakusei_master where (Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ?) or Student_ID_Number like ? or Student_Name like ? or Student_Pronunciation like ?;";
-
 
 			sql = "select count(*) as cnt from gakusei_master where (Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ? and Enrollment_Status not like ?) and (Student_ID_Number like ? or Student_Name like ? or Student_Pronunciation like ?);";
 
 			PreparedStatement st = con.prepareStatement(sql);
-//			Statement st = con.createStatement();
-
-//			System.out.println("baseRow: " + baseRow);
-//			System.out.println("MAXROW: " + MAXROW);
-//			int int_status=0;
-
-			System.out.println("hoge.size() " + hoge.size());
+			System.out.println("hoge.size() :" + hoge.size());
 			for (int i = 0; i < hoge.size(); i++) {
+
 				System.out.println("hoge.get(i) " + hoge.get(i));
 				st.setInt(i + 1, hoge.get(i));
 			}
@@ -156,10 +124,13 @@ public class SampleDAO extends Conn implements Serializable {
 			ResultSet rs = st.executeQuery();
 			rs.next();
 			int records = rs.getInt("cnt");
+
 			System.out.println("records: " + records);
 			allPage = (records - 1) / MAXROW + 1;
 		} catch (Exception e) {
-			System.out.println("e  " + e);
+
+			System.out.println("---------------------------------------- ");
+			System.out.println("e:  " + e);
 			e.printStackTrace();
 			allPage = 0;
 		}
@@ -189,6 +160,8 @@ public class SampleDAO extends Conn implements Serializable {
 				data.add(b);
 			}
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e:  " + e);
 			e.printStackTrace();
 			data = null;
 		}
@@ -196,56 +169,28 @@ public class SampleDAO extends Conn implements Serializable {
 	}
 
 	public int insertData(SampleDataBean bean) {
-//		public int insertData(int Student_ID_Number, int Enrollment_Status, String Enrollment_Status_Date,
-//				String Date_of_birth,
-//				String Name,String Student_Name,String Student_Pronunciation ,
-//				String Students_postal_code,String Students_address,String Phone_number,
-//				String Individuals_mail_address,String Guardians_name_in_Kanji,
-//				String Guardians_Pronunciation,String Guardians_postal_code,
-//				String Guardians_address,String Parent_Guardian_Phone_Number,
-//				String Guardians_email_address) {
 		int result = -1; // --- ダミー
 		try {
 			String sql = "INSERT INTO gakusei_master(Student_ID_Number,Enrollment_Status,Enrollment_Status_Date,Student_Name,Student_Pronunciation,Date_of_birth,Students_postal_code,Students_address,Phone_number,Individuals_mail_address,Guardians_name_in_Kanji,Guardians_Pronunciation,Guardians_postal_code,Guardians_address,Parent_Guardian_Phone_Number,Guardians_email_address)"
 					+ " VALUES (?, ?,?, ?,?, ?,?, ?,?, ?,?, ?,?, ?,?, ?)";
 			PreparedStatement st = con.prepareStatement(sql);
 
-			st.setInt(1, bean.getStudent_ID_Number()); // 番号（id）のセット
-			st.setInt(2, bean.getEnrollment_Status()); // 氏名のセット
-			st.setString(3, bean.getEnrollment_Status_Date()); // 氏名のセット
-//			st.setDate(3, (Date) bean.getEnrollment_Status_Date()); // 氏名のセット
-			st.setString(4, bean.getStudent_Name()); // 氏名のセット
-			st.setString(5, bean.getStudent_Pronunciation()); // 氏名のセット
-			st.setString(6, bean.getDate_of_birth()); // 氏名のセット
-			st.setString(7, bean.getStudents_postal_code()); // 氏名のセット
-			st.setString(8, bean.getStudents_address()); // 氏名のセット
-			st.setString(9, bean.getPhone_number()); // 氏名のセット
-			st.setString(10, bean.getIndividuals_mail_address()); // 氏名のセット
-			st.setString(11, bean.getGuardians_name_in_Kanji()); // 氏名のセット
-			st.setString(12, bean.getGuardians_Pronunciation()); // 氏名のセット
-			st.setString(13, bean.getGuardians_postal_code()); // 氏名のセット
-			st.setString(14, bean.getGuardians_address()); // 氏名のセット
-			st.setString(15, bean.getParent_Guardian_Phone_Number()); // 氏名のセット
-			st.setString(16, bean.getGuardians_email_address()); // 氏名のセット
-
-//			String sql = "insert into sample(Student_ID_Number, Enrollment_Status,Enrollment_Status_DateName,Student_Name,Student_Pronunciation,Date_of_birth,Students_postal_code,Students_address,Phone_number,Individuals_mail_address,Guardians_name_in_Kanji,Guardians_Pronunciation,Guardians_postal_code,Guardians_address,Parent_Guardian_Phone_Number,Guardians_email_address) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-//			PreparedStatement st = con.prepareStatement(sql);
-//			st.setInt(1,Student_ID_Number);
-//			st.setInt(2, Enrollment_Status);
-//			st.setString(3, Enrollment_Status_Date);
-//			st.setString(5, Student_Name);
-//			st.setString(6, Student_Pronunciation);
-//			st.setString(7, Date_of_birth);
-//			st.setString(8, Students_postal_code);
-//			st.setString(9, Students_address);
-//			st.setString(10, Phone_number);
-//			st.setString(11, Individuals_mail_address);
-//			st.setString(12, Guardians_name_in_Kanji);
-//			st.setString(13, Guardians_Pronunciation);
-//			st.setString(14, Guardians_postal_code);
-//			st.setString(15, Guardians_address);
-//			st.setString(16, Parent_Guardian_Phone_Number);
-//			st.setString(17, Guardians_email_address);
+			st.setInt(1, bean.getStudent_ID_Number());
+			st.setInt(2, bean.getEnrollment_Status());
+			st.setString(3, bean.getEnrollment_Status_Date()); 
+			st.setString(4, bean.getStudent_Name()); // 
+			st.setString(5, bean.getStudent_Pronunciation()); 
+			st.setString(6, bean.getDate_of_birth()); // 
+			st.setString(7, bean.getStudents_postal_code()); 
+			st.setString(8, bean.getStudents_address()); 
+			st.setString(9, bean.getPhone_number()); //
+			st.setString(10, bean.getIndividuals_mail_address()); 
+			st.setString(11, bean.getGuardians_name_in_Kanji()); 
+			st.setString(12, bean.getGuardians_Pronunciation()); 
+			st.setString(13, bean.getGuardians_postal_code());
+			st.setString(14, bean.getGuardians_address()); 
+			st.setString(15, bean.getParent_Guardian_Phone_Number()); 
+			st.setString(16, bean.getGuardians_email_address()); 
 
 			result = st.executeUpdate();
 		} catch (Exception e) {
@@ -264,23 +209,25 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(1, Student_ID_Number);
 			ResultSet rs = st.executeQuery();
 			rs.next(); // 最初のレコードの取り出し
-			data.setStudent_ID_Number(rs.getInt("Student_ID_Number")); // 番号（id）のセット
-			data.setEnrollment_Status(rs.getInt("Enrollment_Status")); // 氏名のセット
-			data.setEnrollment_Status_Date(rs.getString("Enrollment_Status_Date")); // 氏名のセット
-			data.setStudent_Name(rs.getString("Student_Name")); // 氏名のセット
-			data.setStudent_Pronunciation(rs.getString("Student_Pronunciation")); // 氏名のセット
-			data.setDate_of_birth(rs.getString("Date_of_birth")); // 氏名のセット
-			data.setStudents_postal_code(rs.getString("Students_postal_code")); // 氏名のセット
-			data.setStudents_address(rs.getString("Students_address")); // 氏名のセット
-			data.setPhone_number(rs.getString("Phone_number")); // 氏名のセット
-			data.setIndividuals_mail_address(rs.getString("Individuals_mail_address")); // 氏名のセット
-			data.setGuardians_name_in_Kanji(rs.getString("Guardians_name_in_Kanji")); // 氏名のセット
-			data.setGuardians_Pronunciation(rs.getString("Guardians_Pronunciation")); // 氏名のセット
-			data.setGuardians_postal_code(rs.getString("Guardians_postal_code")); // 氏名のセット
-			data.setGuardians_address(rs.getString("Guardians_address")); // 氏名のセット
-			data.setParent_Guardian_Phone_Number(rs.getString("Parent_Guardian_Phone_Number")); // 氏名のセット
-			data.setGuardians_email_address(rs.getString("Guardians_email_address")); // 氏名のセット
+			data.setStudent_ID_Number(rs.getInt("Student_ID_Number")); //
+			data.setEnrollment_Status(rs.getInt("Enrollment_Status")); //
+			data.setEnrollment_Status_Date(rs.getString("Enrollment_Status_Date")); //
+			data.setStudent_Name(rs.getString("Student_Name")); //
+			data.setStudent_Pronunciation(rs.getString("Student_Pronunciation")); //
+			data.setDate_of_birth(rs.getString("Date_of_birth")); //
+			data.setStudents_postal_code(rs.getString("Students_postal_code")); //
+			data.setStudents_address(rs.getString("Students_address")); //
+			data.setPhone_number(rs.getString("Phone_number")); //
+			data.setIndividuals_mail_address(rs.getString("Individuals_mail_address")); //
+			data.setGuardians_name_in_Kanji(rs.getString("Guardians_name_in_Kanji")); //
+			data.setGuardians_Pronunciation(rs.getString("Guardians_Pronunciation")); //
+			data.setGuardians_postal_code(rs.getString("Guardians_postal_code")); //
+			data.setGuardians_address(rs.getString("Guardians_address")); //
+			data.setParent_Guardian_Phone_Number(rs.getString("Parent_Guardian_Phone_Number")); //
+			data.setGuardians_email_address(rs.getString("Guardians_email_address")); //
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e:  " + e);
 			e.printStackTrace(); // しくじった時は念のためトレース表示
 			data = null;
 		}
@@ -330,29 +277,30 @@ public class SampleDAO extends Conn implements Serializable {
 					+ "Guardians_postal_code=?,Guardians_address=?,Parent_Guardian_Phone_Number=?,Guardians_email_address=?"
 					+ " where Student_ID_Number=?";
 			PreparedStatement st = con.prepareStatement(sql); // プリペアドステートメント
-			st.setString(1, bean.getStudent_Name()); // 氏名の登録
-			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
+			st.setString(1, bean.getStudent_Name()); //
+			st.setInt(2, bean.getStudent_ID_Number()); //
 
-			st.setInt(1, bean.getEnrollment_Status()); // 番号（id）のセット
-			st.setString(2, bean.getEnrollment_Status_Date()); // 氏名のセット
-			st.setString(3, bean.getStudent_Name()); // 氏名のセット
-//			st.setDate(3, (Date) bean.getEnrollment_Status_Date()); // 氏名のセット
-			st.setString(4, bean.getStudent_Pronunciation()); // 氏名のセット
-			st.setString(5, bean.getDate_of_birth()); // 氏名のセット
-			st.setString(6, bean.getStudents_postal_code()); // 氏名のセット
-			st.setString(7, bean.getStudents_address()); // 氏名のセット
-			st.setString(8, bean.getPhone_number()); // 氏名のセット
-			st.setString(9, bean.getIndividuals_mail_address()); // 氏名のセット
-			st.setString(10, bean.getGuardians_name_in_Kanji()); // 氏名のセット
-			st.setString(11, bean.getGuardians_Pronunciation()); // 氏名のセット
-			st.setString(12, bean.getGuardians_postal_code()); // 氏名のセット
-			st.setString(13, bean.getGuardians_address()); // 氏名のセット
-			st.setString(14, bean.getParent_Guardian_Phone_Number()); // 氏名のセット
-			st.setString(15, bean.getGuardians_email_address()); // 氏名のセット
-			st.setInt(16, bean.getStudent_ID_Number()); // ID の登録
+			st.setInt(1, bean.getEnrollment_Status()); //
+			st.setString(2, bean.getEnrollment_Status_Date()); //
+			st.setString(3, bean.getStudent_Name());
+			st.setString(4, bean.getStudent_Pronunciation()); //
+			st.setString(5, bean.getDate_of_birth()); //
+			st.setString(6, bean.getStudents_postal_code()); //
+			st.setString(7, bean.getStudents_address()); //
+			st.setString(8, bean.getPhone_number()); //
+			st.setString(9, bean.getIndividuals_mail_address()); //
+			st.setString(10, bean.getGuardians_name_in_Kanji());
+			st.setString(11, bean.getGuardians_Pronunciation());
+			st.setString(12, bean.getGuardians_postal_code());
+			st.setString(13, bean.getGuardians_address());
+			st.setString(14, bean.getParent_Guardian_Phone_Number());
+			st.setString(15, bean.getGuardians_email_address());
+			st.setInt(16, bean.getStudent_ID_Number());
 
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e : " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -368,6 +316,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e : " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -383,6 +333,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e  :" + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -398,6 +350,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e  :" + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -413,6 +367,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e : " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -428,6 +384,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e : " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -443,6 +401,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e : " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -458,6 +418,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e:  " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -473,6 +435,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e:  " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -488,6 +452,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e : " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -503,6 +469,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e:  " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -518,6 +486,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e : " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -533,6 +503,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e:  " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -548,6 +520,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e : " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
@@ -563,6 +537,8 @@ public class SampleDAO extends Conn implements Serializable {
 			st.setInt(2, bean.getStudent_ID_Number()); // ID の登録
 			result = st.executeUpdate(); // 更新の実行
 		} catch (Exception e) {
+			System.out.println("---------------------------------------- ");
+			System.out.println("e:  " + e);
 			e.printStackTrace(); // エラーなので、とりあえずスタックトレースを表示する
 			result = 0;
 		}
