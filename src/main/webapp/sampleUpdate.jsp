@@ -156,7 +156,7 @@ h1 {
 		</p>
 		<input type="hidden" name="Student_ID_Number"
 			value="<%=bean.getStudent_ID_Number()%>">
-		<button type="submit" name="submit" value="1" style="background-color: #c9d2e5">変　　　更</button>
+		<button type="submit" name="submit" value="1" style="background-color: #c9d2e5">変　　更</button>
 		<button type="submit" name="submit" value="2" style="background-color: #c9d2e5">キャンセル</button>
 		<button type="reset" style="background-color: #c9d2e5">リセット</button>
 	</form>
