@@ -73,12 +73,17 @@ h1 {
 	}
 	%>
 	<h1>データの修正</h1>
+	
+		<div
+			style="padding: 10px; margin-bottom: 10px; border: 1px solid #333333;
+			 border-radius: 10px; background-color: #ffffff; width: 75%; margin: auto;">
+	
 	<form method="get" action="updatego">
 		<p>
-			学籍番号：<%=bean.getStudent_ID_Number()%></p>
+			学籍番号：<br><%=bean.getStudent_ID_Number()%></p>
 
-		<label>在籍状態：</label> <select name="Enrollment_Status"
-			class=" form-select-lg mb-3" aria-label="Default select example">
+		<label>在籍状態：<br></label> <select name="Enrollment_Status"
+			class=" form-select-lg mb-3" aria-label="Default select example" style="width: 75%">
 			<option value="<%=bean.getEnrollment_Status()%>"><%=status%></option>
 			<option value="0">在学</option>
 			<option value="1">休学</option>
@@ -96,65 +101,67 @@ h1 {
 				value="<%=bean.getEnrollment_Status_Date()%>" required>
 		</p> -->
 		<p>
-			学生氏名（漢字）：<input type="text" name="Student_Name"
-				value="<%=bean.getStudent_Name()%>" required>
+			学生氏名（漢字）：<br><input type="text" name="Student_Name"
+				value="<%=bean.getStudent_Name()%>" required style="width: 75%">
 		</p>
 		<p>
-			学生ふりがな：<input type="text" name="Student_Pronunciation"
-				value="<%=bean.getStudent_Pronunciation()%>" required
+			学生ふりがな：<br><input type="text" name="Student_Pronunciation"
+				value="<%=bean.getStudent_Pronunciation()%>" required style="width: 75%"
 				pattern="[\u3041-\u3096]*">
 		</p>
 		<p>
-			生年月日：<input type="date" name="Date_of_birth"
-				value="<%=bean.getDate_of_birth()%>" required>
+			生年月日：<br><input type="date" name="Date_of_birth"
+				value="<%=bean.getDate_of_birth()%>" required style="width: 75%">
 		</p>
 		<p>
-			本人郵便番号：<input type="text" name="Students_postal_code"
-				value="<%=bean.getStudents_postal_code()%>" required>
+			本人郵便番号：<br><input type="text" name="Students_postal_code"
+				value="<%=bean.getStudents_postal_code()%>" required style="width: 75%">
 		</p>
 		<p>
-			本人住所：<input type="text" name="Students_address"
-				value="<%=bean.getStudents_address()%>" required maxlength="7">
+			本人住所：<br><input type="text" name="Students_address"
+				value="<%=bean.getStudents_address()%>" required maxlength="7" style="width: 75%">
 		</p>
 		<p>
-			本人電話番号：<input type="text" name="Phone_number"
-				value="<%=bean.getPhone_number()%>" required>
+			本人電話番号：<br><input type="text" name="Phone_number"
+				value="<%=bean.getPhone_number()%>" required style="width: 75%">
 		</p>
 		<p>
-			本人メールアドレス（※）：<input type="text" name="Individuals_mail_address"
-				value="<%=bean.getIndividuals_mail_address()%>">
+			本人メールアドレス（※）：<br><input type="text" name="Individuals_mail_address"
+				value="<%=bean.getIndividuals_mail_address()%>" style="width: 75%">
 		</p>
 		<p>
-			保護者氏名（漢字）：<input type="text" name="Guardians_name_in_Kanji"
-				value="<%=bean.getGuardians_name_in_Kanji()%>" required>
+			保護者氏名（漢字）：<br><input type="text" name="Guardians_name_in_Kanji"
+				value="<%=bean.getGuardians_name_in_Kanji()%>" required style="width: 75%">
 		</p>
 		<p>
-			保護者ふりがな：<input type="text" name="Guardians_Pronunciation"
-				value="<%=bean.getGuardians_Pronunciation()%>" required
+			保護者ふりがな：<br><input type="text" name="Guardians_Pronunciation"
+				value="<%=bean.getGuardians_Pronunciation()%>" required style="width: 75%"
 				pattern="[\u3041-\u3096]*">
 		</p>
 		<p>
-			保護者郵便番号：<input type="text" name="Guardians_postal_code"
-				value="<%=bean.getGuardians_postal_code()%>" required maxlength="7">
+			保護者郵便番号：<br><input type="text" name="Guardians_postal_code"
+				value="<%=bean.getGuardians_postal_code()%>" required maxlength="7" style="width: 75%">
 		</p>
 		<p>
-			保護者住所：<input type="text" name="Guardians_address"
-				value="<%=bean.getGuardians_address()%>" required>
+			保護者住所：<br><input type="text" name="Guardians_address"
+				value="<%=bean.getGuardians_address()%>" required style="width: 75%">
 		</p>
 		<p>
-			保護者電話番号：<input type="text" name="Parent_Guardian_Phone_Number"
-				value="<%=bean.getParent_Guardian_Phone_Number()%>" required>
+			保護者電話番号：<br><input type="text" name="Parent_Guardian_Phone_Number"
+				value="<%=bean.getParent_Guardian_Phone_Number()%>" required style="width: 75%">
 		</p>
 		<p>
-			保護者メールアドレス（※）：<input type="text" name="Guardians_email_address"
-				value="<%=bean.getGuardians_email_address()%>">
+			保護者メールアドレス（※）：<br><input type="text" name="Guardians_email_address"
+				value="<%=bean.getGuardians_email_address()%>" style="width: 75%">
 		</p>
 		<input type="hidden" name="Student_ID_Number"
 			value="<%=bean.getStudent_ID_Number()%>">
-		<button type="submit" name="submit" value="1">変更</button>
-		<button type="submit" name="submit" value="2">キャンセル</button>
-		<button type="reset">リセット</button>
+		<button type="submit" name="submit" value="1" style="background-color: #c9d2e5">変　　　更</button>
+		<button type="submit" name="submit" value="2" style="background-color: #c9d2e5">キャンセル</button>
+		<button type="reset" style="background-color: #c9d2e5">リセット</button>
 	</form>
+	
+				</div>
 </body>
 </html>
 

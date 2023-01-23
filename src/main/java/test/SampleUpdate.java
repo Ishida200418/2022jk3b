@@ -41,20 +41,29 @@ public class SampleUpdate extends HttpServlet {
 			}
 			
 		}
+
+		
 		String status="";
-		if (bean.getEnrollment_Status() == 0 ) {
-			status = "在学";
-		}else if (bean.getEnrollment_Status() == 1) {
-			status = "休学";
-		}else if (bean.getEnrollment_Status() == 2) {
-			status = "退学";
-			
-		}else if (bean.getEnrollment_Status() == 3) {
-			status = "除籍";
-		}
+		try{
+			if (bean.getEnrollment_Status() == 0 ) {
+				status = "在学";
+			}else if (bean.getEnrollment_Status() == 1) {
+				status = "休学";
+			}else if (bean.getEnrollment_Status() == 2) {
+				status = "退学";
+				
+			}else if (bean.getEnrollment_Status() == 3) {
+				status = "除籍";
+			}
+			}
+			catch(Exception e){
+				request.getRequestDispatcher("displayall").forward(request, response);
+				return;
+			}
 		// --- エラーがあれば displayall へ戻る
 		if (errflag) {
-			response.sendRedirect("displayall");
+			request.getRequestDispatcher("displayall").forward(request, response);
+			return;
 		} else {
 
 			// --- 更新用のフォームを呼び出す
