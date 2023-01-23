@@ -123,6 +123,6 @@ form {
 	} //--- for を閉じるカッコ
 	} //--- if を閉じるカッコ
 	%>
-	<p><a href="displayall" class="buttonImage">一覧へ戻る</a></p>
+	<p><a href="displayall" class="buttonImage" style="background-color: #c9d2e5">一覧へ戻る</a></p>
 </body>
 </html>
