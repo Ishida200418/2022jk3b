@@ -43,7 +43,8 @@ public class SampleSelect extends HttpServlet {
 			
 			
 		}
-		response.sendRedirect("displayall");
+		request.getRequestDispatcher("displayall").forward(request, response);
+		return;
 		
 	}
 }
