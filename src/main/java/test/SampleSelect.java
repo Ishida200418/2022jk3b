@@ -36,7 +36,12 @@ public class SampleSelect extends HttpServlet {
 			} else if (proc.equals("search")) {
 				request.getRequestDispatcher("displayall").forward(request, response);
 				return;
+			}else  {
+				request.getRequestDispatcher("displayall").forward(request, response);
+				return;
 			}
+			
+			
 		}
 		response.sendRedirect("displayall");
 		
