@@ -156,7 +156,11 @@ input[type="password"]:focus {
 							<td><input type="radio" name="Student_ID_Number"
 								value="<%=bean.getStudent_ID_Number()%>" id="radio<%=cnt%>"></td>
 							<td><label for="radio<%=cnt%>"><a
-									href="./user?Student_ID_Number=<%=bean.getStudent_ID_Number()%>"><%=bean.getStudent_ID_Number()%></a></label></td>
+									href="./user?Student_ID_Number=<%=bean.getStudent_ID_Number()%>">
+									<img src="gjwa9joija9ojw.png" alt="<%=bean.getStudent_ID_Number()%>" width="13" height="13">
+									<%=bean.getStudent_ID_Number()%>
+									</a>
+ </a></label></td>
 							<td><label for="radio<%=cnt%>"><%=bean.getStudent_Name()%></label></td>
 							<td><label for="radio<%=cnt%>"><%=bean.getStudent_Pronunciation()%></label></td>
 						</tr>
