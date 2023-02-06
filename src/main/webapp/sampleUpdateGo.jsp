@@ -113,6 +113,11 @@ form {
 </style>
 </head>
 <body>
+
+	<div
+		style="background: linear-gradient(45deg, rgb(56, 40, 104), rgb(252, 102, 28)),
+		radial-gradient(rgba(255, 0, 0,0.9), rgba(0, 0, 0,0.9));">
+<br>
 	<%
 	List<String> list = (ArrayList<String>) request.getAttribute("message");
 	if (list != null) {
@@ -123,6 +128,8 @@ form {
 	} //--- for を閉じるカッコ
 	} //--- if を閉じるカッコ
 	%>
-	<p><a href="displayall" class="buttonImage" style="background-color: #c9d2e5">一覧へ戻る</a></p>
+	<p><a href="displayall" class="buttonImage" style="background: rgba(195, 218, 247,0.8)">一覧へ戻る</a></p>
+
+				</div>
 </body>
 </html>

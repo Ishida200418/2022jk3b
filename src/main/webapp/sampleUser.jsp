@@ -90,6 +90,11 @@ h1 {
 </style>
 </head>
 <body>
+
+	<div
+		style="background: linear-gradient(45deg, rgb(56, 40, 104), rgb(252, 102, 28)),
+		radial-gradient(rgba(255, 0, 0,0.9), rgba(0, 0, 0,0.9));">
+<br>
 	<%
 	//--- データの取得
 	SampleDataBean bean = (SampleDataBean) request.getAttribute("data");
@@ -99,11 +104,21 @@ h1 {
 	}
 	%>
 	<%String status = (String) request.getAttribute("status");%>
-	<h1>データの詳細</h1>
+	
+		<header
+				style="text-align:center;
+  padding:5px 0;
+				border: 1px solid #333333;
+				 border-radius: 10px; background: rgba(255, 255, 255, 0.45); width: 50%; margin: auto;">
+			<h1>データの詳細</h1>
+		</header>
+		<br>
+	
 	
 		<div
 			style="padding: 10px; margin-bottom: 10px; border: 1px solid #333333;
-			 border-radius: 10px; background-color: #ffffff; width: 75%; margin: auto;">
+				 background: rgba(255, 255, 255, 0.6);
+			 border-radius: 10px;width: 75%; margin: auto;">
 
 	<p>
 		学籍番号：<%=bean.getStudent_ID_Number()%></p>
@@ -156,11 +171,13 @@ h1 {
 
 	<p>
 		<a href="update?Student_ID_Number=<%=bean.getStudent_ID_Number()%>"
-			class="buttonImage" style="background-color: #c9d2e5">編　　　集</a>
+			class="buttonImage" style="background: rgba(195, 218, 247,0.8)">編　　　集</a>
 
-		<a href="displayall" class="buttonImage" style="background-color: #c9d2e5">一覧へ戻る</a>
+		<a href="displayall" class="buttonImage" style="background: rgba(195, 218, 247,0.8)">一覧へ戻る</a>
 	</p>
 	
+				</div>
+				<br>
 				</div>
 </body>
 </html>
