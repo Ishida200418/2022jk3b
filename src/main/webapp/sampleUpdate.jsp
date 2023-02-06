@@ -103,7 +103,9 @@ h1 {
 				<p>
 					学籍番号：<br><%=bean.getStudent_ID_Number()%></p>
 
-				<label>在籍状態：<br></label> <select name="Enrollment_Status"
+				<p>
+					在籍状態：<br></p>
+				 <select name="Enrollment_Status"
 					class=" form-select-lg mb-3" aria-label="Default select example"
 					style="width: 75%">
 					<option value="<%=bean.getEnrollment_Status()%>"><%=status%></option>
